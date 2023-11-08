@@ -387,7 +387,7 @@ limitations under the License.]]>
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>generat-v3</id>
+            <id>generate-v3</id>
             <goals>
               <goal>generate</goal>
             </goals>
@@ -444,6 +444,46 @@ limitations under the License.]]>
               <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
               <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
               <schemaMappings>PackageRef=com.redhat.exhort.api.PackageRef</schemaMappings>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-js-v3</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/../api/v3/openapi.yaml</inputSpec>
+              <generatorName>typescript</generatorName>
+              <modelPackage>exhort-api-v3</modelPackage>
+              <output>${project.build.directory}/exhort-javascript-api</output>
+              <generateApis>false</generateApis>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <generateModelTests>false</generateModelTests>
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <generateApiTests>false</generateApiTests>
+              <addCompileSourceRoot>false</addCompileSourceRoot>
+              <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
+              <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-js-v4</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/../api/v4/openapi.yaml</inputSpec>
+              <generatorName>typescript</generatorName>
+              <modelPackage>exhort-api-v4</modelPackage>
+              <output>${project.build.directory}/exhort-javascript-api</output>
+              <generateApis>false</generateApis>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <generateModelTests>false</generateModelTests>
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <generateApiTests>false</generateApiTests>
+              <addCompileSourceRoot>false</addCompileSourceRoot>
+              <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
+              <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
             </configuration>
           </execution>
         </executions>
