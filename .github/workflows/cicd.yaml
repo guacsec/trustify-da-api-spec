@@ -1,4 +1,4 @@
-name: CI/CD
+name: CICD
 on:
   push:
     branches:
@@ -22,9 +22,9 @@ jobs:
         with:
           node-version: 18
       - name: v3 Lint
-        run: npx @redocly/cli lint api-spec/v3/openapi.yaml
+        run: npx @redocly/cli lint api/v3/openapi.yaml
       - name: v4 Lint
-        run: npx @redocly/cli lint api-spec/v4/openapi.yaml
+        run: npx @redocly/cli lint api/v4/openapi.yaml
   openapi-validation:
     runs-on: ubuntu-latest
     name: Validate OpenAPI Spec
@@ -33,12 +33,12 @@ jobs:
       - name: Validate OpenAPI V3 definition
         uses: char0n/swagger-editor-validate@v1
         with:
-          definition-file: api-spec/v3/openapi.yaml
+          definition-file: api/v3/openapi.yaml
       - name: Validate OpenAPI V4 definition
         uses: char0n/swagger-editor-validate@v1
         with:
-          definition-file: api-spec/v4/openapi.yaml
-  deploy:
+          definition-file: api/v4/openapi.yaml
+  deploy-package:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -52,9 +52,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          server-id: RHEcosystemAppEng-github
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file exhort-java-api/pom.xml
       - name: Publish to GitHub Packages Apache Maven
+        run: mvn -B deploy --file exhort-java-api/pom.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}

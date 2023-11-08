@@ -80,9 +80,9 @@
 
   <distributionManagement>
     <repository>
-      <id>RHEcosystemAppEng-github</id>
+      <id>github</id>
       <name>RHEcosystemAppEng Maven Packages</name>
-      <url>https://maven.pkg.github.com/RHEcosystemAppEng/exhort-api</url>
+      <url>https://maven.pkg.github.com/RHEcosystemAppEng/exhort-api-spec</url>
     </repository>
   </distributionManagement>
 
