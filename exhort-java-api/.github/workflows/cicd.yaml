@@ -1,0 +1,56 @@
+name: CI/CD
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  workflow_dispatch: # allow this workflow to be called by other workflows
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  openapi-lint-checks:
+    runs-on: ubuntu-latest
+    name: OpenAPI Linter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: v3 Lint
+        run: npx @redocly/cli lint api-spec/v3/openapi.yaml
+      - name: v4 Lint
+        run: npx @redocly/cli lint api-spec/v4/openapi.yaml
+  openapi-validation:
+    runs-on: ubuntu-latest
+    name: Validate OpenAPI Spec
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate OpenAPI V3 definition
+        uses: char0n/swagger-editor-validate@v1
+        with:
+          definition-file: api-spec/v3/openapi.yaml
+      - name: Validate OpenAPI V4 definition
+        uses: char0n/swagger-editor-validate@v1
+        with:
+          definition-file: api-spec/v4/openapi.yaml
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up graalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '17'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run deploy package
+        run: |
+          ./mvnw deploy
