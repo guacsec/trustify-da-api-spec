@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Maven
-        run: mvn -B test --file exhort-java-api/pom.xml
+        run: mvn -B test --file pom.xml
   openapi-lint-checks:
     runs-on: ubuntu-latest
     name: OpenAPI Linter

@@ -53,6 +53,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build and Publish to GitHub Maven Packages
-        run: mvn -B deploy --file exhort-java-api/pom.xml
+        run: mvn -B deploy --file pom.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}

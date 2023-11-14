@@ -10,12 +10,13 @@
   <version>1.0.0-SNAPSHOT</version>
   <name>Exhort Java API</name>
   <description>Red Hat Trusted Profile Analizer :: Exhort :: Java API</description>
-  <url>https://github.com/RHEcosystemAppEng/exhort-api-spec/exhort-java-api#readme</url>
+  <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
   <inceptionYear>2023</inceptionYear>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>14</maven.compiler.release>
+    <js-api>${project.build.directory}/js-api</js-api>
     <!-- Dependencies -->
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
@@ -44,6 +45,10 @@
     <license-maven-plugin.version>4.1</license-maven-plugin.version>
     <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
     <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+    <frontend-maven-plugin.version>1.13.4</frontend-maven-plugin.version>
+    <!-- Node and Yarn -->
+    <node.version>v20.9.0</node.version>
+    <yarn.version>v1.22.19</yarn.version>
   </properties>
 
   <licenses>
@@ -53,13 +58,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
-  <developers>
-    <developer>
-      <id>ruromero</id>
-      <url>https://github.com/ruromero</url>
-    </developer>
-  </developers>
 
   <issueManagement>
     <system>GitHub Issues</system>
@@ -194,6 +192,40 @@
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>${maven-resources-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>copy-js-resources</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${js-api}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${basedir}/src/filtered/js-api</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+            <execution>
+              <id>copy-readme</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${basedir}</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>${basedir}/src/filtered/base</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
@@ -278,6 +310,11 @@ limitations under the License.]]>
           <groupId>org.openapitools</groupId>
           <artifactId>openapi-generator-maven-plugin</artifactId>
           <version>${openapi-generator-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>${frontend-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -387,12 +424,12 @@ limitations under the License.]]>
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>generat-v3</id>
+            <id>generate-v3</id>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/../api/v3/openapi.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/v3/openapi.yaml</inputSpec>
               <generatorName>java</generatorName>
               <modelPackage>com.redhat.exhort.api.v3</modelPackage>
               <output>${project.build.directory}</output>
@@ -422,7 +459,7 @@ limitations under the License.]]>
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/../api/v4/openapi.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/v4/openapi.yaml</inputSpec>
               <generatorName>java</generatorName>
               <modelPackage>com.redhat.exhort.api.v4</modelPackage>
               <output>${project.build.directory}</output>
@@ -446,9 +483,88 @@ limitations under the License.]]>
               <schemaMappings>PackageRef=com.redhat.exhort.api.PackageRef</schemaMappings>
             </configuration>
           </execution>
+          <execution>
+            <id>generate-js-v3</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/api/v3/openapi.yaml</inputSpec>
+              <generatorName>typescript</generatorName>
+              <modelPackage>v3</modelPackage>
+              <output>${js-api}/model</output>
+              <generateApis>false</generateApis>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <generateModelTests>false</generateModelTests>
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <generateApiTests>false</generateApiTests>
+              <addCompileSourceRoot>false</addCompileSourceRoot>
+              <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
+              <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-js-v4</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/api/v4/openapi.yaml</inputSpec>
+              <generatorName>typescript</generatorName>
+              <modelPackage>v4</modelPackage>
+              <output>${js-api}/model</output>
+              <generateApis>false</generateApis>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <generateModelTests>false</generateModelTests>
+              <generateModelDocumentation>false</generateModelDocumentation>
+              <generateApiTests>false</generateApiTests>
+              <addCompileSourceRoot>false</addCompileSourceRoot>
+              <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
+              <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
-
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>${frontend-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>install node and yarn</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>install-node-and-yarn</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>yarn install</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>yarn compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>run compile</arguments>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <nodeVersion>${node.version}</nodeVersion>
+          <yarnVersion>${yarn.version}</yarnVersion>
+          <workingDirectory>${js-api}</workingDirectory>
+          <installDirectory>target</installDirectory>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
