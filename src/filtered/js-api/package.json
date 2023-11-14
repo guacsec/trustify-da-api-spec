@@ -1,5 +1,5 @@
 {
-  "name": "@RHEcosystemAppEng/exhort-api-spec",
+  "name": "@RHEcosystemAppEng/${project.artifactId}",
   "version": "${project.version}",
   "description": "Red Hat Trusted Profile Analizer :: Exhort :: Javascript API",
   "main": "index.js",
