@@ -39,6 +39,7 @@ jobs:
         with:
           definition-file: api/v4/openapi.yaml
   deploy-packages:
+    if: github.repository_owner == 'RHEcosystemAppEng'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -52,8 +53,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Set NPM auth token
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Build and Publish to GitHub Maven Packages
         run: mvn -B deploy --file pom.xml
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-          NODE_AUTH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
