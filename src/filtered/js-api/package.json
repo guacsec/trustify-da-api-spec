@@ -1,0 +1,38 @@
+{
+  "name": "exhort-js-api",
+  "version": "${project.version}",
+  "description": "Red Hat Trusted Profile Analizer :: Exhort :: Javascript API",
+  "main": "index.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "homepage": "${project.url}#README.md",
+  "bugs": "${project.url}/issues",
+  "scripts": {
+    "lint": "eslint model/**/* --ext js --fix",
+    "precompile": "rm -rf dist && npm run lint",
+    "compile": "tsc -p tsconfig.json"
+  },
+  "keywords": [
+    "analysis",
+    "codeready",
+    "exhort",
+    "secure",
+    "supply-chain",
+    "vulnerability"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "${project.url}"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^20.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "typescript": "^5.2.2"
+  }
+}

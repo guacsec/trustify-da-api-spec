@@ -1,0 +1,21 @@
+{
+	"include": ["model/v3/**/*","model/v4/**/*","./package.json"],
+	"compilerOptions": {
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "src",
+		"declaration": true,
+		"esModuleInterop": true,
+		"lib": ["ES2015"],
+    "types": ["node"],
+		"moduleResolution": "Node",
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"rootDir": ".",
+		"skipLibCheck": true,
+		"module": "esnext",
+		"outDir": "dist",
+		"target": "esnext",
+		"resolveJsonModule": true
+	}
+}
