@@ -38,7 +38,7 @@ jobs:
         uses: char0n/swagger-editor-validate@v1
         with:
           definition-file: api/v4/openapi.yaml
-  deploy-package:
+  deploy-packages:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -56,3 +56,4 @@ jobs:
         run: mvn -B deploy --file pom.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          NODE_AUTH_TOKEN: ${{ github.token }}

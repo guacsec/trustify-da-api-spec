@@ -557,6 +557,16 @@ limitations under the License.]]>
               <arguments>run compile</arguments>
             </configuration>
           </execution>
+          <execution>
+            <id>yarn publish</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>publish</arguments>
+            </configuration>
+          </execution>
         </executions>
         <configuration>
           <nodeVersion>${node.version}</nodeVersion>
