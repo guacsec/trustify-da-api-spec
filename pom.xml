@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.redhat.ecosystemappeng</groupId>
@@ -17,6 +15,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>14</maven.compiler.release>
     <js-api>${project.build.directory}/js-api</js-api>
+    <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
+    <timestamp>${maven.build.timestamp}</timestamp>
     <!-- Dependencies -->
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
@@ -68,7 +68,7 @@
     <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
     <connection>scm:git:git@github.com:RHEcosystemAppEng/exhort-api-spec.git</connection>
     <developerConnection>scm:git:git@github.com:RHEcosystemAppEng/exhort-api-spec.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v1.0.0</tag>
   </scm>
 
   <ciManagement>
@@ -185,8 +185,11 @@
           <version>${maven-release-plugin.version}</version>
           <configuration>
             <arguments>-Pprepare-deployment,deploy-github</arguments>
-            <scmCommentPrefix>build(release): [skip ci] </scmCommentPrefix>
+            <scmCommentPrefix>build(release): </scmCommentPrefix>
             <signTag>true</signTag>
+            <goals>install</goals>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+            <preparationGoals>clean compile</preparationGoals>
           </configuration>
         </plugin>
         <plugin>
@@ -564,7 +567,7 @@ limitations under the License.]]>
               <goal>yarn</goal>
             </goals>
             <configuration>
-              <arguments>publish</arguments>
+              <arguments>run publish:snapshot</arguments>
             </configuration>
           </execution>
         </executions>
@@ -579,44 +582,60 @@ limitations under the License.]]>
   </build>
 
   <profiles>
-    <!-- use this profile for development stage -->
     <profile>
-      <id>dev</id>
-      <properties>
-        <enforcer.skip>true</enforcer.skip>
-        <license.skip>true</license.skip>
-      </properties>
+      <id>release</id>
       <build>
         <plugins>
           <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>${frontend-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>install node and yarn</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>install-node-and-yarn</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>yarn install</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>install</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>yarn compile</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>run compile</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>yarn publish</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>publish</arguments>
+                </configuration>
+              </execution>
+            </executions>
             <configuration>
-              <failOnWarning>false</failOnWarning>
+              <nodeVersion>${node.version}</nodeVersion>
+              <yarnVersion>${yarn.version}</yarnVersion>
+              <workingDirectory>${js-api}</workingDirectory>
+              <installDirectory>target</installDirectory>
             </configuration>
           </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <!-- use this profile to include github registry distribution definition -->
-    <!-- requires credentials set for github in ~/.m2/settings.xml -->
-    <profile>
-      <id>deploy-github</id>
-      <distributionManagement>
-        <repository>
-          <id>github</id>
-          <url>https://maven.pkg.github.com/RHEcosystemAppEng/exhort-api-spec</url>
-        </repository>
-        <snapshotRepository>
-          <id>github</id>
-          <url>https://maven.pkg.github.com/RHEcosystemAppEng/exhort-api-spec</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-    <!-- use this profile for packaging of jars to deploy to artifact repository -->
-    <profile>
-      <id>prepare-deployment</id>
-      <build>
-        <plugins>
           <!-- flatten-maven-plugin:flatten is bound to the process-resources phase and will create
           a .flattened-pom.xml -->
           <plugin>

@@ -11,7 +11,8 @@
   "scripts": {
     "lint": "eslint model/**/* --ext js --fix",
     "precompile": "rm -rf dist && npm run lint",
-    "compile": "tsc -p tsconfig.json"
+    "compile": "tsc -p tsconfig.json",
+    "publish:snapshot": "npm version prerelease --preid ${timestamp} && npm publish --tag ${timestamp}"
   },
   "keywords": [
     "analysis",
