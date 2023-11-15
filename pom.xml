@@ -5,7 +5,7 @@
 
   <groupId>com.redhat.ecosystemappeng</groupId>
   <artifactId>exhort-api-spec</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <name>Exhort Java API</name>
   <description>Red Hat Trusted Profile Analizer :: Exhort :: Java API</description>
   <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
@@ -67,7 +67,7 @@
     <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
     <connection>scm:git:git@github.com:RHEcosystemAppEng/exhort-api-spec.git</connection>
     <developerConnection>scm:git:git@github.com:RHEcosystemAppEng/exhort-api-spec.git</developerConnection>
-    <tag>v1.0.0</tag>
+    <tag>v1.0.2</tag>
   </scm>
 
   <ciManagement>
