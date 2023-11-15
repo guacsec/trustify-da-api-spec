@@ -54,6 +54,6 @@ jobs:
       - name: Set NPM auth token
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Build and Publish to GitHub Maven Packages
-        run: mvn -B deploy --file pom.xml
+        run: mvn -B deploy -Ppublish --file pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -12,7 +12,7 @@
     "lint": "eslint model/**/* --ext js --fix",
     "precompile": "rm -rf dist && npm run lint",
     "compile": "tsc -p tsconfig.json",
-    "publish:snapshot": "npm version prerelease --preid ${timestamp} && npm publish --tag ${timestamp}"
+    "publish:snapshot": "npm version prerelease --preid ${timestamp} && npm publish --tag snapshot"
   },
   "keywords": [
     "analysis",

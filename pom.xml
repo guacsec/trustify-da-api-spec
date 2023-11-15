@@ -34,7 +34,6 @@
     <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
-    <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
     <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
@@ -177,17 +176,6 @@
           <version>${maven-javadoc-plugin.version}</version>
           <configuration>
             <doclint>all,-missing</doclint>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>${maven-release-plugin.version}</version>
-          <configuration>
-            <scmCommentPrefix>build(release): </scmCommentPrefix>
-            <signTag>true</signTag>
-            <goals>install</goals>
-            <tagNameFormat>v@{project.version}</tagNameFormat>
-            <completionGoals>clean package</completionGoals>
           </configuration>
         </plugin>
         <plugin>
@@ -577,9 +565,66 @@ limitations under the License.]]>
 
   <profiles>
     <profile>
+      <id>publish</id>
+      <build>
+        <plugins>
+<!-- flatten-maven-plugin:flatten is bound to the process-resources phase and will create
+          a .flattened-pom.xml -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>flatten-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>flatten</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>flatten</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- source:jar is bound to the generate-sources phase and will create a sources jar -->
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- javadoc:jar is bound to the generate-sources phase and will create a javadoc jar -->
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>release</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <groupId>com.github.eirslett</groupId>
             <artifactId>frontend-maven-plugin</artifactId>
@@ -630,46 +675,8 @@ limitations under the License.]]>
               <installDirectory>target</installDirectory>
             </configuration>
           </plugin>
-          <!-- flatten-maven-plugin:flatten is bound to the process-resources phase and will create
-          a .flattened-pom.xml -->
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>flatten-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>flatten</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>flatten</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- source:jar is bound to the generate-sources phase and will create a sources jar -->
-          <plugin>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- javadoc:jar is bound to the generate-sources phase and will create a javadoc jar -->
-          <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
-
   </profiles>
 </project>
