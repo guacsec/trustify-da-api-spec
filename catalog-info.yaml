@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  annotations:
+    backstage.io/kubernetes-id: exhort-api-spec
+    github.com/project-slug: RHEcosystemAppEng/exhort-api-spec
+    github.com/project-readme-path: README.md
+    backstage.io/view-url: https://github.com/RHEcosystemAppEng/exhort-api-spec/blob/main/catalog-info.yaml
+    backstage.io/edit-url: https://github.com/RHEcosystemAppEng/exhort-api-spec/blob/main/catalog-info.yaml
+    backstage.io/source-location: url:https://github.com/RHEcosystemAppEng/exhort-api-spec
+    rhda/manifest-file-path: pom.xml
+    backstage.io/techdocs-ref: dir:README.md
+  name: exhort-api-spec
+  tags:
+    - rhda
+spec:
+  lifecycle: production
+  owner: ecosystem-appeng
+  type: service
