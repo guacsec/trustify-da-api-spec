@@ -236,8 +236,10 @@ components:
             $ref: '#/components/schemas/TransitiveDependencyReport'
         recommendation:
           description: Trusted Content recommendation that is not related to any security vulnerability
+          x-field-extra-annotation: '@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = com.redhat.exhort.api.serialization.PackageRefSerializer.class)'
           allOf:
             - $ref: '#/components/schemas/PackageRef'
+
         highestVulnerability:
           description: Highest vulnerability found for this dependency
           $ref: '#/components/schemas/Issue'
