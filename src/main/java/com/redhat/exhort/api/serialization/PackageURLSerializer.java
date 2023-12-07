@@ -38,6 +38,6 @@ public class PackageURLSerializer extends StdSerializer<PackageURL> {
   @Override
   public void serialize(PackageURL value, JsonGenerator gen, SerializerProvider provider)
       throws IOException {
-    gen.writeString(value.getCoordinates());
+    gen.writeString(value.toString());
   }
 }

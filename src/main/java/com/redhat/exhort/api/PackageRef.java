@@ -53,7 +53,7 @@ public class PackageRef {
   }
 
   public String ref() {
-    return purl.getCoordinates();
+    return purl.toString();
   }
 
   public String name() {
