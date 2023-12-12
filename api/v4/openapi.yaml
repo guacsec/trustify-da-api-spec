@@ -295,9 +295,11 @@ components:
         trustedContent:
           type: object
           properties:
-            mavenPackage:
+            package:
               $ref: '#/components/schemas/PackageRef'
-            productStatus:
+            status:
+              type: string
+            justification:
               type: string
     CvssVector:
       type: object
