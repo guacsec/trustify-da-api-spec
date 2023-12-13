@@ -89,7 +89,7 @@ public class PackageRef {
     if (!(other instanceof PackageRef)) {
       return false;
     }
-    return purl.isCoordinatesEquals(((PackageRef) other).purl());
+    return Objects.equals(purl, ((PackageRef) other).purl());
   }
 
   public static PackageRef parse(String gav, String pkgManager) {
@@ -187,6 +187,6 @@ public class PackageRef {
 
   @Override
   public String toString() {
-    return purl.getCoordinates();
+    return purl.toString();
   }
 }
