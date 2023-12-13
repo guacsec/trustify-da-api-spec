@@ -20,7 +20,7 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 <dependency>
   <groupId>com.redhat.ecosystemappeng</groupId>
   <artifactId>exhort-api</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -36,5 +36,5 @@ echo "@RHEcosystemAppEng:registry=https://npm.pkg.github.com" >> .npmrc
 Then, add it to your project as follows:
 
 ```bash
-npm install @RHEcosystemAppEng/exhort-javascript-api@1.0.3
+npm install @RHEcosystemAppEng/exhort-javascript-api@1.0.4-SNAPSHOT
 ```
