@@ -295,7 +295,7 @@ components:
         trustedContent:
           type: object
           properties:
-            package:
+            ref:
               $ref: '#/components/schemas/PackageRef'
             status:
               type: string
