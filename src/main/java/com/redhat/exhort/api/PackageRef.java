@@ -76,10 +76,21 @@ public class PackageRef {
     return purl.getVersion();
   }
 
+  public boolean isCoordinatesEquals(PackageRef other) {
+    if(other == null) {
+      return false;
+    }
+    if(other.purl == null) {
+      return this.purl == null;
+    }
+    return this.purl.isCoordinatesEquals(other.purl);
+  }
+  
   @Override
   public int hashCode() {
     return purl.hashCode();
   }
+
 
   @Override
   public boolean equals(Object other) {
