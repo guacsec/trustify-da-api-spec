@@ -20,6 +20,7 @@ package com.redhat.exhort.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -50,5 +51,19 @@ public class PackageRefTest {
 
     ref = new PackageRef("pkg:golang/go.opencensus.io@v0.21.0");
     assertEquals("v0.21.0", ref.version());
+  }
+
+  @Test
+  public void testCoordinatesEquals() {
+    var originalPurl = "pkg:maven/jakarta.validation/jakarta.validation-api@2.0.2.redhat-00005?repository_url=https%3A%2F%2Fmaven.repository.redhat.com%2Fga%2F&type=jar";
+    var coordinates = "pkg:maven/jakarta.validation/jakarta.validation-api@2.0.2.redhat-00005";
+    var ref = new PackageRef(originalPurl);
+    assertEquals(originalPurl, ref.toString());
+
+    assertEquals(coordinates, ref.purl().getCoordinates());
+
+    assertEquals(originalPurl, ref.toString());
+
+    assertTrue(ref.isCoordinatesEquals(new PackageRef(coordinates)));
   }
 }
