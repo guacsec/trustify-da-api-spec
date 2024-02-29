@@ -95,13 +95,13 @@ paths:
         content:
           application/vnd.cyclonedx+json:
             schema:
-              type: array
-              items:
+              type: object
+              additionalProperties:
                 type: object
           application/vnd.spdx+json:
             schema:
-              type: array
-              items:
+              type: object
+              additionalProperties:
                 type: object
       responses:
         '200':
