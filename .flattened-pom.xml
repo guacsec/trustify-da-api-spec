@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.redhat.ecosystemappeng</groupId>
   <artifactId>exhort-api-spec</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5</version>
   <name>Exhort Java API</name>
   <description>Red Hat Trusted Profile Analizer :: Exhort :: Java API</description>
   <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
