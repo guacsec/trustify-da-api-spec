@@ -72,7 +72,7 @@ paths:
   /batch-analysis:
     post:
       operationId: batchAnalysis
-      summary: Takes an array of client-resolved dependency graphs to perform a full stack analysis from all the available Vulnerability sources
+      summary: Takes a dictionary of client-resolved dependency graphs to perform a full stack analysis from all the available Vulnerability sources
       security:
         - RhdaTokenAuth: [ ]
         - SnykTokenAuth: [ ]
@@ -91,7 +91,7 @@ paths:
           example: snyk
       requestBody:
         required: true
-        description: An array of dependency graphs in SBOM format
+        description: A dictionary of package URLs to dependency graphs in SBOM format
         content:
           application/vnd.cyclonedx+json:
             schema:
@@ -105,7 +105,7 @@ paths:
                 type: object
       responses:
         '200':
-          description: Full dependency analysis from all the available providers
+          description: A dictionary of package URLs to full dependency analysis reports from all the available providers
           content:
             application/json:
               schema:
