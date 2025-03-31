@@ -39,18 +39,3 @@ jobs:
         run: npx @redocly/cli lint api/v3/openapi.yaml
       - name: v4 Lint
         run: npx @redocly/cli lint api/v4/openapi.yaml
-  openapi-validation:
-    runs-on: ubuntu-latest
-    name: Validate OpenAPI Spec
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set Puppeteer No-Sandbox Mode
-        run: echo "PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser --no-sandbox --disable-setuid-sandbox" >> $GITHUB_ENV
-      - name: Validate OpenAPI V3 definition
-        uses: char0n/swagger-editor-validate@v1
-        with:
-          definition-file: api/v3/openapi.yaml
-      - name: Validate OpenAPI V4 definition
-        uses: char0n/swagger-editor-validate@v1
-        with:
-          definition-file: api/v4/openapi.yaml
