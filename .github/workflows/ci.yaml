@@ -44,6 +44,8 @@ jobs:
     name: Validate OpenAPI Spec
     steps:
       - uses: actions/checkout@v3
+      - name: Set Puppeteer No-Sandbox Mode
+        run: echo "PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser --no-sandbox --disable-setuid-sandbox" >> $GITHUB_ENV
       - name: Validate OpenAPI V3 definition
         uses: char0n/swagger-editor-validate@v1
         with:

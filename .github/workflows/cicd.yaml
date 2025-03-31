@@ -37,7 +37,7 @@ jobs:
         with:
           definition-file: api/v4/openapi.yaml
   deploy-latest-packages:
-    if: github.repository_owner == 'RHEcosystemAppEng'
+    if: github.repository_owner == 'trustification'
     runs-on: ubuntu-latest
     permissions:
       contents: read
