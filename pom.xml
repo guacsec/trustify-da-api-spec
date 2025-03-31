@@ -8,7 +8,7 @@
   <version>1.0.6-SNAPSHOT</version>
   <name>Exhort Java API</name>
   <description>Red Hat Trusted Profile Analizer :: Exhort :: Java API</description>
-  <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
+  <url>https://github.com/trustification/exhort-api-spec</url>
   <inceptionYear>2023</inceptionYear>
 
   <properties>
@@ -59,26 +59,26 @@
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/RHEcosystemAppEng/exhort-api-spec/issues</url>
+    <url>https://github.com/trustification/exhort-api-spec/issues</url>
   </issueManagement>
 
   <scm>
-    <url>https://github.com/RHEcosystemAppEng/exhort-api-spec</url>
-    <connection>scm:git:git@github.com:RHEcosystemAppEng/exhort-api-spec.git</connection>
-    <developerConnection>scm:git:git@github.com:RHEcosystemAppEng/exhort-api-spec.git</developerConnection>
+    <url>https://github.com/trustification/exhort-api-spec</url>
+    <connection>scm:git:git@github.com:trustification/exhort-api-spec.git</connection>
+    <developerConnection>scm:git:git@github.com:trustification/exhort-api-spec.git</developerConnection>
     <tag>v1.0.0</tag>
   </scm>
 
   <ciManagement>
     <system>GitHub Workflows</system>
-    <url>https://github.com/RHEcosystemAppEng/exhort-api-spec/actions</url>
+    <url>https://github.com/trustification/exhort-api-spec/actions</url>
   </ciManagement>
 
   <distributionManagement>
     <repository>
       <id>github</id>
-      <name>RHEcosystemAppEng Maven Packages</name>
-      <url>https://maven.pkg.github.com/RHEcosystemAppEng/exhort-api-spec</url>
+      <name>Trustification Maven Packages</name>
+      <url>https://maven.pkg.github.com/trustification/exhort-api-spec</url>
     </repository>
   </distributionManagement>
 
