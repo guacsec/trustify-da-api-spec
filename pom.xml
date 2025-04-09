@@ -13,7 +13,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>14</maven.compiler.release>
+    <maven.compiler.release>11</maven.compiler.release>
     <js-api>${project.build.directory}/js-api</js-api>
     <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
     <timestamp>${maven.build.timestamp}</timestamp>
