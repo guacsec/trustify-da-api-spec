@@ -26,15 +26,15 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 
 ## Use the Javascript data model
 
-Configuring NPM to look in GHPR for the RHEcosystemAppEng namespace is done by adding `@RHEcosystemAppEng:registry=https://npm.pkg.github.com`
+Configuring NPM to look in GHPR for the `trustification` namespace is done by adding `@trustification:registry=https://npm.pkg.github.com`
 to _.npmrc_ in the project root or user home.
 
 ```bash
-echo "@RHEcosystemAppEng:registry=https://npm.pkg.github.com" >> .npmrc
+echo "@trustification:registry=https://npm.pkg.github.com" >> .npmrc
 ```
 
 Then, add it to your project as follows:
 
 ```bash
-npm install @RHEcosystemAppEng/exhort-javascript-api@${project.version}
+npm install @trustification/exhort-javascript-api@${project.version}
 ```
