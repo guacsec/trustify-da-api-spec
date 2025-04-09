@@ -60,16 +60,18 @@ public class PackageRef {
     if (purl.getNamespace() == null) {
       return purl.getName();
     }
-    return switch (purl.getType()) {
-      case MAVEN_TYPE -> new StringBuilder(purl.getNamespace())
-          .append(":")
-          .append(purl.getName())
-          .toString();
-      default -> new StringBuffer(purl.getNamespace())
-          .append("/")
-          .append(purl.getName())
-          .toString();
-    };
+    switch (purl.getType()) {
+      case MAVEN_TYPE:
+        return new StringBuilder(purl.getNamespace())
+            .append(":")
+            .append(purl.getName())
+            .toString();
+      default:
+        return new StringBuffer(purl.getNamespace())
+            .append("/")
+            .append(purl.getName())
+            .toString();
+    }
   }
 
   public String version() {
