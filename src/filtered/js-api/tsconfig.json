@@ -6,16 +6,17 @@
 		"baseUrl": "src",
 		"declaration": true,
 		"esModuleInterop": true,
-		"lib": ["ES2015"],
-    "types": ["node"],
+		"lib": ["ES2020"],
+		"types": ["node"],
 		"moduleResolution": "Node",
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 		"rootDir": ".",
 		"skipLibCheck": true,
 		"module": "esnext",
 		"outDir": "dist",
-		"target": "esnext",
-		"resolveJsonModule": true
+		"target": "es2020",
+		"resolveJsonModule": true,
+		"strict": true
 	}
 }

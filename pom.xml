@@ -486,6 +486,11 @@ limitations under the License.]]>
               <addCompileSourceRoot>false</addCompileSourceRoot>
               <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
               <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
+              <configOptions>
+                <useTypeScript>true</useTypeScript>
+                <withInterfaces>true</withInterfaces>
+                <withSeparateModelsAndApi>true</withSeparateModelsAndApi>
+              </configOptions>
             </configuration>
           </execution>
           <execution>
@@ -506,6 +511,11 @@ limitations under the License.]]>
               <addCompileSourceRoot>false</addCompileSourceRoot>
               <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
               <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
+              <configOptions>
+                <useTypeScript>true</useTypeScript>
+                <withInterfaces>true</withInterfaces>
+                <withSeparateModelsAndApi>true</withSeparateModelsAndApi>
+              </configOptions>
             </configuration>
           </execution>
         </executions>
