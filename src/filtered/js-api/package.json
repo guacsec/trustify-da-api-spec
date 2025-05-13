@@ -10,7 +10,7 @@
   "homepage": "${project.url}#README.md",
   "bugs": "${project.url}/issues",
   "scripts": {
-    "lint": "eslint model/**/* --ext js --fix",
+    "lint": "eslint model/**/* --ext js,ts --fix",
     "precompile": "rm -rf dist && npm run lint",
     "compile": "tsc -p tsconfig.json",
     "publish:snapshot": "npm version prerelease --preid ${timestamp} && npm publish --tag snapshot"
