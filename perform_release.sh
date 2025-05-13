@@ -13,7 +13,7 @@ print_message() {
 remove_snapshot() {
     print_message "Removing snapshot from pom"
     mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
-    mvn clean deploy -Ppublish -Prelease
+    mvn deploy -Ppublish -Prelease
 }
 
 git_push() {
@@ -56,7 +56,7 @@ perform_release() {
     git_tag
 
     next_version ${1:-}
-    mvn -B clean package -Ppublish
+    mvn -B package -Ppublish
     git_commit "updated next development version"
 }
 
