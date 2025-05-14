@@ -18,26 +18,27 @@ jobs:
     permissions:
       contents: write
       packages: write
+      pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v4
 
       - name: Set up Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'maven'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.9.0'
           registry-url: 'https://npm.pkg.github.com'
-
-      - name: Set NPM auth token
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
 
       - name: Remove snapshot
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
@@ -46,6 +47,12 @@ jobs:
         run: mvn -B deploy -Ppublish -Prelease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get version
+        id: get_version
+        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
       - name: Create Release
         id: create_release
@@ -54,13 +61,8 @@ jobs:
           name: Release ${{ github.event.inputs.version || steps.get_version.outputs.version }}
           tag_name: v${{ github.event.inputs.version || steps.get_version.outputs.version }}
           generate_release_notes: true
-          sign: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get version
-        id: get_version
-        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
       - name: Update to next version
         if: success()
@@ -71,10 +73,19 @@ jobs:
             mvn -B release:update-versions
           fi
 
-      - name: Commit changes
+      - name: Create Pull Request with next version
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: "build(release): update to next development version"
+          branch: chore/bump-version
+          title: "chore: bump to next development version"
+          body: |
+            This PR updates the project to the next development version after the release.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for the PR
+        if: steps.cpr.outputs.pull-request-number
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "build(release): update to next development version"
-          git push 
+          gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --merge --auto
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

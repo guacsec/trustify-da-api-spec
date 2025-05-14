@@ -5,7 +5,7 @@
 
   <groupId>com.redhat.ecosystemappeng</groupId>
   <artifactId>exhort-api-spec</artifactId>
-  <version>1.0.10-SNAPSHOT</version>
+  <version>1.0.8-SNAPSHOT</version>
   <name>Exhort Java API</name>
   <description>Red Hat Trusted Profile Analizer :: Exhort :: Java API</description>
   <url>https://github.com/trustification/exhort-api-spec</url>
@@ -523,7 +523,6 @@ limitations under the License.]]>
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>${frontend-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>install node and yarn</id>
@@ -632,19 +631,19 @@ limitations under the License.]]>
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--batch</arg>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
               </execution>
             </executions>
-            <configuration>
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>com.github.eirslett</groupId>
             <artifactId>frontend-maven-plugin</artifactId>
-            <version>${frontend-maven-plugin.version}</version>
             <executions>
               <execution>
                 <id>install node and yarn</id>
