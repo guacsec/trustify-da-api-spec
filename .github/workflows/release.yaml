@@ -72,6 +72,8 @@ jobs:
           else
             mvn -B release:update-versions
           fi
+          # Run the phase that triggers README.md update
+          mvn -B validate
 
       - name: Create Pull Request with next version
         uses: peter-evans/create-pull-request@v5
