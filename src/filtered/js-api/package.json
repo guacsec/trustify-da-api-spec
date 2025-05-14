@@ -2,8 +2,12 @@
   "name": "@trustification/${project.artifactId}",
   "version": "${project.version}",
   "description": "Red Hat Trusted Profile Analizer :: Exhort :: Javascript API",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "files": [
+    "model/"
+  ],
+  "exports": {
+    "./model/*": "./model/*"
+  },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
