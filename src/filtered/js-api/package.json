@@ -3,10 +3,11 @@
   "version": "${project.version}",
   "description": "Red Hat Trusted Profile Analizer :: Exhort :: Javascript API",
   "files": [
-    "model/"
+    "dist/"
   ],
   "exports": {
-    "./model/*": "./model/*"
+    "./model/v3/*": "./dist/model/v3/*",
+    "./model/v4/*": "./dist/model/v4/*"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
