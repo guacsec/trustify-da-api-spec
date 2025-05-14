@@ -79,6 +79,7 @@ jobs:
           commit-message: "build(release): update to next development version"
           branch: chore/bump-version
           title: "chore: bump to next development version"
+          signoff: true
           body: |
             This PR updates the project to the next development version after the release.
           token: ${{ secrets.GITHUB_TOKEN }}
