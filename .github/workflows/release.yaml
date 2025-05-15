@@ -76,6 +76,7 @@ jobs:
           mvn -B validate
 
       - name: Create Pull Request with next version
+        id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: "build(release): update to next development version"
@@ -87,7 +88,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge for the PR
-        if: steps.cpr.outputs.pull-request-number
+        if: ${{ success() && steps.cpr.outputs.pull-request-number != '' }}
         run: |
           gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --merge --auto
         env:
