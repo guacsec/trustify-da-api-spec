@@ -664,7 +664,7 @@ limitations under the License.]]>
               </execution>
               <execution>
                 <id>yarn install</id>
-                <phase>compile</phase>
+                <phase>generate-sources</phase>
                 <goals>
                   <goal>yarn</goal>
                 </goals>
@@ -674,7 +674,7 @@ limitations under the License.]]>
               </execution>
               <execution>
                 <id>fix-type-definitions</id>
-                <phase>compile</phase>
+                <phase>generate-sources</phase>
                 <goals>
                   <goal>yarn</goal>
                 </goals>
