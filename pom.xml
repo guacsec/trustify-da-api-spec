@@ -533,12 +533,22 @@ limitations under the License.]]>
           </execution>
           <execution>
             <id>yarn install</id>
-            <phase>compile</phase>
+            <phase>generate-sources</phase>
             <goals>
               <goal>yarn</goal>
             </goals>
             <configuration>
               <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>fix-type-definitions</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>run fix-types</arguments>
             </configuration>
           </execution>
           <execution>
@@ -660,6 +670,16 @@ limitations under the License.]]>
                 </goals>
                 <configuration>
                   <arguments>install</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>fix-type-definitions</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>run fix-types</arguments>
                 </configuration>
               </execution>
               <execution>
