@@ -1,22 +1,17 @@
 {
-	"include": ["model/v3/**/*","model/v4/**/*"],
+	"include": ["model/**/*"],
+	"exclude": ["node_modules", "dist"],
 	"compilerOptions": {
-		"allowJs": true,
-		"allowSyntheticDefaultImports": true,
+		"target": "es2018",
+		"module": "commonjs",
+		"lib": ["es2018", "dom"],
 		"declaration": true,
-		"declarationDir": "dist",
-		"esModuleInterop": true,
-		"lib": ["ES2020"],
-		"types": ["node"],
-		"moduleResolution": "Node",
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"rootDir": ".",
-		"skipLibCheck": true,
-		"module": "esnext",
 		"outDir": "dist",
-		"target": "es2020",
-		"resolveJsonModule": true,
-		"strict": true
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false
 	}
 }
