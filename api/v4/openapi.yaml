@@ -26,14 +26,23 @@ paths:
       parameters:
       - name: providers
         in: query
-        description: List of vulnerability providers to get the report from
+        description: List of vulnerability providers to get the report from. Defaults to all available providers.
         required: false
         schema:
           enum:
           - snyk
           - oss-index
+          - tpa
           type: string
-        example: snyk
+        example: tpa
+      - name: recommend
+        in: query
+        description: Whether to include recommendations in the report
+        required: false
+        schema:
+          type: boolean
+          default: true
+        example: true
       requestBody:
         required: true
         description: Dependency graph in SBOM format
