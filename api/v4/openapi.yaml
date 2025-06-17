@@ -186,6 +186,56 @@ paths:
               schema:
                 type: string
                 description: Missing token
+  /model-cards/reports:
+    post:
+      operationId: listModelCardsReports
+      summary: List model cards reports for the given model names
+      requestBody:
+        required: true
+        description: Model names to get the model cards reports for
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ref:
+                  $ref: '#/components/schemas/ModelRequest'
+      responses:
+        '200':
+          description: Successful model cards retrieval
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ListReportResponse'
+                description: Map of model names to arrays of matching model cards
+  /model-card/reports/{id}:
+    get:
+      operationId: getModelCardReport
+      summary: Get a model card report by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Unique identifier for the model card report
+      responses:
+        '200':
+          description: Successful model card report retrieval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelCardReportResponse'
+        '404':
+          description: Model card report not found
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   securitySchemes:
@@ -414,3 +464,93 @@ components:
           $ref: '#/components/schemas/PackageRef'
         reason:
           type: string
+    ModelRequest:
+      type: object
+      properties:
+        models:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the model to search for
+              filter:
+                type: object
+                description: Arbitrary key/value pairs to filter models with the same name
+                additionalProperties:
+                  type: string
+    ListReportResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the model card
+        name:
+          type: string
+          description: Name of the model
+        report:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSummary'
+        tags:
+          type: array
+          items:
+            type: string
+            description: Arbitrary tags associated with the model
+        config:
+          type: object
+          description: Context configuration for the report
+          properties:
+            ref:
+              $ref: '#/components/schemas/ReportConfig'
+    TaskSummary:
+      type: object
+      properties:
+        task:
+          type: string
+          description: Task name evaluated
+        metric:
+          type: string
+          description: Metric name evaluated
+        friendlyName:
+          type: string
+          description: Friendly name of the metric
+        score:
+          type: number
+          description: Floating point score between 0 and 1
+        assessment:
+          type: string
+          description: Category of how the metric is evaluated
+    ReportConfig:
+      type: object
+      properties:
+        model_name:
+          type: string
+        model_source:
+          type: string
+        dtype:
+          type: string
+        batch_sizes:
+          type: array
+          items:
+            type: integer
+        revision:
+          type: string
+        revision_sha:
+          type: string
+    ModelCardReportResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: false
+          description: Unique identifier for the model card report
+        results:
+          type: object
+          nullable: false
+          description: Raw LM-Eval results for the model card report
+        tags:
+          type: array
+          items:
+            type: string
