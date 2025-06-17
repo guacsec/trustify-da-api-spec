@@ -184,22 +184,22 @@ paths:
               schema:
                 type: string
                 description: Missing token
-  /model-cards/reports:
+  /model-cards:
     post:
-      operationId: listModelCardsReports
-      summary: List model cards reports for the given model names
+      operationId: listModelCards
+      summary: List model cards for the given model names
       security:
         - BearerAuth: []
       requestBody:
         required: true
-        description: Model names to get the model cards reports for
+        description: Model names to get the model cards for
         content:
           application/json:
             schema:
               type: object
               properties:
                 ref:
-                  $ref: '#/components/schemas/ModelRequest'
+                  $ref: '#/components/schemas/ModelCardRequest'
       responses:
         '200':
           description: Successful model cards retrieval
@@ -210,7 +210,7 @@ paths:
                 additionalProperties:
                   type: array
                   items:
-                    $ref: '#/components/schemas/ListReportResponse'
+                    $ref: '#/components/schemas/ListModelCardResponse'
                 description: Map of model names to arrays of matching model cards
         '400':
           description: Invalid request
@@ -219,10 +219,10 @@ paths:
               schema:
                 type: string
                 description: Error message
-  /model-card/reports/{id}:
+  /model-card/{id}:
     get:
-      operationId: getModelCardReport
-      summary: Get a model card report by id
+      operationId: getModelCard
+      summary: Get a model card by id
       security:
         - BearerAuth: []
       parameters:
@@ -231,16 +231,16 @@ paths:
           required: true
           schema:
             type: string
-            description: Unique identifier for the model card report
+            description: Unique identifier for the model card
       responses:
         '200':
-          description: Successful model card report retrieval
+          description: Successful model card retrieval
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ModelCardReportResponse'
+                $ref: '#/components/schemas/ModelCardResponse'
         '404':
-          description: Model card report not found
+          description: Model card not found
           content:
             text/plain:
               schema:
@@ -477,7 +477,7 @@ components:
           $ref: '#/components/schemas/PackageRef'
         reason:
           type: string
-    ModelRequest:
+    ModelCardRequest:
       type: object
       properties:
         models:
@@ -493,7 +493,7 @@ components:
                 description: Arbitrary key/value pairs to filter models with the same name
                 additionalProperties:
                   type: string
-    ListReportResponse:
+    ListModelCardResponse:
       type: object
       properties:
         id:
@@ -502,7 +502,7 @@ components:
         name:
           type: string
           description: Name of the model
-        report:
+        tasks:
           type: array
           items:
             $ref: '#/components/schemas/TaskSummary'
@@ -552,17 +552,18 @@ components:
           type: string
         revision_sha:
           type: string
-    ModelCardReportResponse:
+    ModelCardResponse:
       type: object
+      description: Model card response
       properties:
         id:
           type: string
           nullable: false
-          description: Unique identifier for the model card report
+          description: Unique identifier for the model card
         results:
           type: object
           nullable: false
-          description: Raw LM-Eval results for the model card report
+          description: Raw LM-Eval results for the model card
         tags:
           type: array
           items:
