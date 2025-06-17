@@ -11,8 +11,6 @@ servers:
   description: Production server
 - url: https://exhort-alpha.stage.devshift.net/api/v4
   description: Staging server
-- url: http://localhost:8080/api/v4
-  description: Local development
 paths:
   /analysis:
     post:
@@ -190,6 +188,8 @@ paths:
     post:
       operationId: listModelCardsReports
       summary: List model cards reports for the given model names
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         description: Model names to get the model cards reports for
@@ -212,10 +212,19 @@ paths:
                   items:
                     $ref: '#/components/schemas/ListReportResponse'
                 description: Map of model names to arrays of matching model cards
+        '400':
+          description: Invalid request
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Error message
   /model-card/reports/{id}:
     get:
       operationId: getModelCardReport
       summary: Get a model card report by id
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -255,6 +264,10 @@ components:
       type: apiKey
       in: header
       name: ex-oss-index-token
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token for authentication
   schemas:
     AnalysisReport:
       type: object
