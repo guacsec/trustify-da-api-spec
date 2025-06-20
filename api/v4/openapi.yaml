@@ -15,7 +15,7 @@ paths:
   /analysis:
     post:
       operationId: analysis
-      summary:  Takes a client-resolved dependency graph to perform a full stack analysis from all the available Vulnerability sources
+      summary: Takes a client-resolved dependency graph to perform a full stack analysis from all the available Vulnerability sources
       security:
         - RhdaTokenAuth: []
         - SnykTokenAuth: []
@@ -96,6 +96,7 @@ paths:
             enum:
               - snyk
               - oss-index
+              - tpa
             type: string
           example: snyk
       requestBody:
@@ -199,10 +200,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                ref:
-                  $ref: '#/components/schemas/ModelCardRequest'
+              $ref: '#/components/schemas/ModelCardQueryRequest'
       responses:
         '200':
           description: Successful model cards retrieval
@@ -482,22 +480,22 @@ components:
           $ref: '#/components/schemas/PackageRef'
         reason:
           type: string
-    ModelCardRequest:
+    ModelCardQueryRequest:
       type: object
       properties:
-        models:
+        queries:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Name of the model to search for
-              filter:
-                type: object
-                description: Arbitrary key/value pairs to filter models with the same name
-                additionalProperties:
-                  type: string
+            $ref: '#/components/schemas/ModelCardQueryItem'
+    ModelCardQueryItem:
+      type: object
+      properties:
+        model_name:
+          type: string
+        filter:
+          type: object
+          additionalProperties:
+            type: string
     ListModelCardResponse:
       type: object
       properties:
@@ -506,23 +504,15 @@ components:
           description: Unique identifier for the model card
         name:
           type: string
+          description: Name of the report
+        model_name:
+          type: string
           description: Name of the model
-        tasks:
+        metrics:
           type: array
           items:
-            $ref: '#/components/schemas/TaskSummary'
-        tags:
-          type: array
-          items:
-            type: string
-            description: Arbitrary tags associated with the model
-        config:
-          type: object
-          description: Context configuration for the report
-          properties:
-            ref:
-              $ref: '#/components/schemas/ReportConfig'
-    TaskSummary:
+            $ref: '#/components/schemas/MetricSummary'
+    MetricSummary:
       type: object
       properties:
         task:
@@ -531,32 +521,15 @@ components:
         metric:
           type: string
           description: Metric name evaluated
-        friendlyName:
-          type: string
-          description: Friendly name of the metric
         score:
           type: number
+          format: float
+          minimum: 0
+          maximum: 1
           description: Floating point score between 0 and 1
         assessment:
           type: string
           description: Category of how the metric is evaluated
-    ReportConfig:
-      type: object
-      properties:
-        model_name:
-          type: string
-        model_source:
-          type: string
-        dtype:
-          type: string
-        batch_sizes:
-          type: array
-          items:
-            type: integer
-        revision:
-          type: string
-        revision_sha:
-          type: string
     ModelCardResponse:
       type: object
       description: Model card response
@@ -565,11 +538,92 @@ components:
           type: string
           nullable: false
           description: Unique identifier for the model card
-        results:
-          type: object
-          nullable: false
-          description: Raw LM-Eval results for the model card
+        name:
+          type: string
+          description: Name of the report
+        source:
+          type: string
+          description: Source of the model
+        config:
+          $ref: '#/components/schemas/ReportConfig'
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportTask'
+    ReportConfig:
+      type: object
+      properties:
+        model_name:
+          type: string
+        model_source:
+          type: string
+        model_revision:
+          type: string
+        model_revision_sha:
+          type: string
+        dtype:
+          type: string
+        batch_size:
+          type: string
+        batch_sizes:
+          type: array
+          items:
+            type: integer
+        lm_eval_version:
+          type: string
+        transformers_version:
+          type: string
+    ReportTask:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportMetric'
         tags:
           type: array
           items:
             type: string
+    ReportMetric:
+      type: object
+      properties:
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        higher_is_better:
+          type: boolean
+        score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        thresholds:
+          type: array
+          items:
+            $ref: '#/components/schemas/MetricThreshold'
+    MetricThreshold:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          type: integer
+        interpretation:
+          type: string
+        upper:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        lower:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
