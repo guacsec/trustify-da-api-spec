@@ -550,6 +550,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReportTask'
+        guardrails:
+          type: array
+          items:
+            $ref: '#/components/schemas/Guardrail'
     ReportConfig:
       type: object
       properties:
@@ -608,6 +612,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MetricThreshold'
+        guardrails:
+          type: array
+          description: Guardrail IDs that are recommended to be used to improve the metric score
+          items:
+            type: integer
+            format: int64
     MetricThreshold:
       type: object
       properties:
@@ -627,3 +637,30 @@ components:
           format: float
           minimum: 0
           maximum: 1
+    Guardrail:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the guardrail
+        name:
+          type: string
+        description:
+          type: string
+        metadata_keys:
+          type: array
+          items:
+            type: string
+        scope:
+          type: string
+          enum:
+            - input
+            - output
+            - both
+        external_references:
+          type: array
+          items:
+            type: string
+        instructions:
+          type: string
