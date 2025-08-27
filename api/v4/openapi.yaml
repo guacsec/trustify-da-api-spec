@@ -621,8 +621,15 @@ components:
     MetricThreshold:
       type: object
       properties:
-        name:
+        impact:
           type: string
+          enum:
+            - no_measurable
+            - very_low
+            - low
+            - moderate
+            - high
+            - severe
         category:
           type: integer
         interpretation:
