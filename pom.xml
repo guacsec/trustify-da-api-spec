@@ -5,7 +5,7 @@
 
   <groupId>com.redhat.ecosystemappeng</groupId>
   <artifactId>exhort-api-spec</artifactId>
-  <version>1.0.18-SNAPSHOT</version>
+  <version>1.0.19-SNAPSHOT</version>
   <name>Exhort Java API</name>
   <description>Red Hat Trusted Profile Analizer :: Exhort :: Java API</description>
   <url>https://github.com/trustification/exhort-api-spec</url>
