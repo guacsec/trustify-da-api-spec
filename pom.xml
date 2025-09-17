@@ -4,11 +4,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.guacsec</groupId>
-  <artifactId>exhort-api-spec</artifactId>
+  <artifactId>trustify-da-api</artifactId>
   <version>1.0.19-SNAPSHOT</version>
-  <name>Exhort Java API</name>
-  <description>Trustify Vulnerability Analysis :: Exhort :: Java API</description>
-  <url>https://github.com/guacsec/exhort-api-spec</url>
+  <name>Trustify Dependency Analytics API Spec</name>
+  <description>Trustify :: Dependency Analytics :: Java API</description>
+  <url>https://github.com/guacsec/trustify-da-api-spec</url>
   <inceptionYear>2023</inceptionYear>
 
   <properties>
@@ -59,26 +59,26 @@
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/guacsec/exhort-api-spec/issues</url>
+    <url>https://github.com/guacsec/trustify-da-api-spec/issues</url>
   </issueManagement>
 
   <scm>
-    <url>https://github.com/guacsec/exhort-api-spec</url>
-    <connection>scm:git:git@github.com:guacsec/exhort-api-spec.git</connection>
-    <developerConnection>scm:git:git@github.com:guacsec/exhort-api-spec.git</developerConnection>
-    <tag>exhort-api-spec-1.0.14</tag>
+    <url>https://github.com/guacsec/trustify-da-api-spec</url>
+    <connection>scm:git:git@github.com:guacsec/trustify-da-api-spec.git</connection>
+    <developerConnection>scm:git:git@github.com:guacsec/trustify-da-api-spec.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
 
   <ciManagement>
     <system>GitHub Workflows</system>
-    <url>https://github.com/guacsec/exhort-api-spec/actions</url>
+    <url>https://github.com/guacsec/trustify-da-api-spec/actions</url>
   </ciManagement>
 
   <distributionManagement>
     <repository>
       <id>github</id>
       <name>Guacsec Maven Packages</name>
-      <url>https://maven.pkg.github.com/guacsec/exhort-api-spec</url>
+      <url>https://maven.pkg.github.com/guacsec/trustify-da-api-spec</url>
     </repository>
   </distributionManagement>
 
@@ -232,7 +232,7 @@
           <version>${license-maven-plugin.version}</version>
           <configuration>
             <properties>
-              <owner>Trustify Exhort Authors</owner>
+              <owner>Trustify Dependency Analytics Authors</owner>
             </properties>
             <licenseSets>
               <licenseSet>
@@ -409,14 +409,14 @@ limitations under the License.]]>
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>generate-v4</id>
+            <id>generate-v5</id>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/api/v4/openapi.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/v5/openapi.yaml</inputSpec>
               <generatorName>java</generatorName>
-              <modelPackage>com.github.guacsec.exhort.api.v4</modelPackage>
+              <modelPackage>com.github.guacsec.trustifyda.api.v5</modelPackage>
               <output>${project.build.directory}</output>
               <configOptions>
                 <documentationProvider>none</documentationProvider>
@@ -435,18 +435,18 @@ limitations under the License.]]>
               <addCompileSourceRoot>false</addCompileSourceRoot>
               <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
               <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
-              <schemaMappings>PackageRef=com.github.guacsec.exhort.api.PackageRef</schemaMappings>
+              <schemaMappings>PackageRef=com.github.guacsec.trustifyda.api.PackageRef</schemaMappings>
             </configuration>
           </execution>
           <execution>
-            <id>generate-js-v4</id>
+            <id>generate-js-v5</id>
             <goals>
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/api/v4/openapi.yaml</inputSpec>
+              <inputSpec>${project.basedir}/api/v5/openapi.yaml</inputSpec>
               <generatorName>typescript</generatorName>
-              <modelPackage>v4</modelPackage>
+              <modelPackage>v5</modelPackage>
               <output>${js-api}/model</output>
               <generateApis>false</generateApis>
               <generateSupportingFiles>false</generateSupportingFiles>

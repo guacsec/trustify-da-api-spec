@@ -1,9 +1,9 @@
-# Exhort API Specification
-Trustify Vulnerability Analysis API Specification
+# Trustify Dependency Analytics API Specification
+Trustify Dependency Analytics API Specification
 
-## OpenAPI v4
+## OpenAPI v5
 
-Find the OpenAPI definition for V4 under the [/api](./api) folder
+Find the OpenAPI definition for V5 under the [/api](./api) folder
 
 ## Generated data model
 
@@ -19,7 +19,7 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 ```xml
 <dependency>
   <groupId>com.github.guacsec</groupId>
-  <artifactId>exhort-api</artifactId>
+  <artifactId>trustify-da-api</artifactId>
   <version>${project.version}</version>
 </dependency>
 ```
@@ -36,5 +36,5 @@ echo "@guacsec:registry=https://npm.pkg.github.com" >> .npmrc
 Then, add it to your project as follows:
 
 ```bash
-npm install @guacsec/exhort-javascript-api@${project.version}
+npm install @guacsec/trustify-da-api@${project.version}
 ```

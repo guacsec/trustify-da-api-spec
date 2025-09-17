@@ -1,5 +1,5 @@
 /*
- * Copyright 2023-2025 Trustify Exhort Authors
+ * Copyright 2023-2025 Trustify Dependency Analytics Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.exhort.api;
+package com.github.guacsec.trustifyda.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -1,17 +1,17 @@
 /**
- * Trustify Vulnerability Analysis :: Exhort :: JavaScript API
+ * Trustify :: Dependency Analytics :: API
  *
- * This is the main entry point for the Exhort API library.
- * It exports all the public APIs from the v4 model.
+ * This is the main entry point for the Dependency Analytics API library.
+ * It exports all the public APIs from the v5 model.
  */
 
 /**
- * Exhort API v4 Models
+ * Trustify Dependency Analytics API v5 Models
  *
- * This file exports all the models for the v4 version of the Exhort API.
+ * This file exports all the models for the v5 version of the Trustify Dependency Analytics API.
  */
 
-export * from './model/v4';
+export * from './model/v5';
 
 // Export version information
 export const VERSION = '0.0.0'; // This will be replaced during build time 

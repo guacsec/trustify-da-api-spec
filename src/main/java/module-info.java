@@ -1,8 +1,8 @@
-module exhort.api {
+module trustifyda.api {
 
-    exports com.github.guacsec.exhort.api;
-    exports com.github.guacsec.exhort.api.v4;
-    exports com.github.guacsec.exhort.api.serialization;
+    exports com.github.guacsec.trustifyda.api;
+    exports com.github.guacsec.trustifyda.api.v5;
+    exports com.github.guacsec.trustifyda.api.serialization;
 
     requires jakarta.annotation;
     requires com.fasterxml.jackson.annotation;
@@ -10,7 +10,7 @@ module exhort.api {
     requires com.fasterxml.jackson.databind;
     requires packageurl.java;
 
-    opens com.github.guacsec.exhort.api.v4 to com.fasterxml.jackson.databind;
-    opens com.github.guacsec.exhort.api to com.fasterxml.jackson.databind;
+    opens com.github.guacsec.trustifyda.api.v5 to com.fasterxml.jackson.databind;
+    opens com.github.guacsec.trustifyda.api to com.fasterxml.jackson.databind;
 
 }

@@ -4,7 +4,7 @@ const glob = require('glob');
 
 console.log('Fixing type definition imports...');
 
-// Find all .ts and .d.ts files in the model/v4 directory
+// Find all .ts and .d.ts files in the model/v5 directory
 const files = glob.sync('model/**/*.{ts,d.ts}');
 
 files.forEach(file => {
@@ -15,7 +15,7 @@ files.forEach(file => {
     content = content.replace(/import.*from ['"]\.\.\/http\/http['"];?\n?/g, '');
     
     // Fix relative imports
-    content = content.replace(/from ['"]\.\.\/v4\//g, 'from \'./');
+    content = content.replace(/from ['"]\.\.\/v5\//g, 'from \'./');
     
     fs.writeFileSync(file, content);
 });

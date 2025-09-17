@@ -1,5 +1,5 @@
 /*
- * Copyright 2023-2025 Trustify Exhort Authors
+ * Copyright 2023-2025 Trustify Dependency Analytics Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.exhort.api.serialization;
+package com.github.guacsec.trustifyda.api.serialization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.guacsec.exhort.api.PackageRef;
+import com.github.guacsec.trustifyda.api.PackageRef;
 
 public class PackageURLSerializerTest {
 
