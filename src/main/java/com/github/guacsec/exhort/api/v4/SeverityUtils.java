@@ -1,6 +1,5 @@
 /*
- * Copyright 2023 Red Hat, Inc. and/or its affiliates
- * and other contributors as indicated by the @author tags.
+ * Copyright 2023-2025 Trustify Exhort Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.redhat.exhort.api.v3;
+package com.github.guacsec.exhort.api.v4;
 
 public class SeverityUtils {
 

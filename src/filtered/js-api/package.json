@@ -1,17 +1,12 @@
 {
-  "name": "@trustification/${project.artifactId}",
+  "name": "@guacsec/${project.artifactId}",
   "version": "${project.version}",
-  "description": "Red Hat Trusted Profile Analizer :: Exhort :: Javascript API",
+  "description": "Trustify Vulnerability Analysis :: Exhort :: Javascript API",
   "type": "commonjs",
   "files": [
     "model/"
   ],
   "exports": {
-    "./model/v3/*": {
-      "require": "./model/v3/*",
-      "import": "./model/v3/*",
-      "types": "./model/v3/*"
-    },
     "./model/v4/*": {
       "require": "./model/v4/*",
       "import": "./model/v4/*",

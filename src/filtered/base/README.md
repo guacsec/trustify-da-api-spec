@@ -1,9 +1,9 @@
 # Exhort API Specification
-Red Hat Trusted Profile Analyzer API Specification
+Trustify Vulnerability Analysis API Specification
 
-## OpenAPI v3 and v4
+## OpenAPI v4
 
-Find the OpenAPI definitions for V3 and V4 under the [/api](./api) folder
+Find the OpenAPI definition for V4 under the [/api](./api) folder
 
 ## Generated data model
 
@@ -18,7 +18,7 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 
 ```xml
 <dependency>
-  <groupId>com.redhat.ecosystemappeng</groupId>
+  <groupId>com.github.guacsec</groupId>
   <artifactId>exhort-api</artifactId>
   <version>${project.version}</version>
 </dependency>
@@ -26,15 +26,15 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 
 ## Use the Javascript data model
 
-Configuring NPM to look in GHPR for the `trustification` namespace is done by adding `@trustification:registry=https://npm.pkg.github.com`
+Configuring NPM to look in GHPR for the `guacsec` namespace is done by adding `@guacsec:registry=https://npm.pkg.github.com`
 to _.npmrc_ in the project root or user home.
 
 ```bash
-echo "@trustification:registry=https://npm.pkg.github.com" >> .npmrc
+echo "@guacsec:registry=https://npm.pkg.github.com" >> .npmrc
 ```
 
 Then, add it to your project as follows:
 
 ```bash
-npm install @trustification/exhort-javascript-api@${project.version}
+npm install @guacsec/exhort-javascript-api@${project.version}
 ```

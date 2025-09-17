@@ -1,12 +1,9 @@
 /**
- * Red Hat Trusted Profile Analyzer :: Exhort :: JavaScript API
+ * Trustify Vulnerability Analysis :: Exhort :: JavaScript API
  *
  * This is the main entry point for the Exhort API library.
- * It exports all the public APIs from both v3 and v4 models.
+ * It exports all the public APIs from the v4 model.
  */
-
-// Re-export all models from v3
-export * from './model/v3';
 
 /**
  * Exhort API v4 Models

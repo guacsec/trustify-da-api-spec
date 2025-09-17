@@ -1,6 +1,5 @@
 /*
- * Copyright 2023 Red Hat, Inc. and/or its affiliates
- * and other contributors as indicated by the @author tags.
+ * Copyright 2023-2025 Trustify Exhort Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +15,11 @@
  * limitations under the License.
  */
 
-package com.redhat.exhort.api;
+package com.github.guacsec.exhort.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
 public class PackageRefTest {
