@@ -19,8 +19,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: v3 Lint
-        run: npx @redocly/cli lint api/v3/openapi.yaml
       - name: v4 Lint
         run: npx @redocly/cli lint api/v4/openapi.yaml
 
