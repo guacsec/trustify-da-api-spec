@@ -1,6 +1,5 @@
 /*
- * Copyright 2023 Red Hat, Inc. and/or its affiliates
- * and other contributors as indicated by the @author tags.
+ * Copyright 2023-2025 Trustify Dependency Analytics Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +15,15 @@
  * limitations under the License.
  */
 
-package com.redhat.exhort.api;
+package com.github.guacsec.trustifyda.api;
 
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.guacsec.trustifyda.api.serialization.PackageURLSerializer;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
-import com.redhat.exhort.api.serialization.PackageURLSerializer;
 
 public class PackageRef {
 

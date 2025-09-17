@@ -1,9 +1,9 @@
-# Exhort API Specification
-Red Hat Trusted Profile Analyzer API Specification
+# Trustify Dependency Analytics API Specification
+Trustify Dependency Analytics API Specification
 
-## OpenAPI v3 and v4
+## OpenAPI v5
 
-Find the OpenAPI definitions for V3 and V4 under the [/api](./api) folder
+Find the OpenAPI definition for V5 under the [/api](./api) folder
 
 ## Generated data model
 
@@ -18,23 +18,23 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 
 ```xml
 <dependency>
-  <groupId>com.redhat.ecosystemappeng</groupId>
-  <artifactId>exhort-api</artifactId>
+  <groupId>com.github.guacsec</groupId>
+  <artifactId>trustify-da-api</artifactId>
   <version>${project.version}</version>
 </dependency>
 ```
 
 ## Use the Javascript data model
 
-Configuring NPM to look in GHPR for the `trustification` namespace is done by adding `@trustification:registry=https://npm.pkg.github.com`
+Configuring NPM to look in GHPR for the `guacsec` namespace is done by adding `@guacsec:registry=https://npm.pkg.github.com`
 to _.npmrc_ in the project root or user home.
 
 ```bash
-echo "@trustification:registry=https://npm.pkg.github.com" >> .npmrc
+echo "@guacsec:registry=https://npm.pkg.github.com" >> .npmrc
 ```
 
 Then, add it to your project as follows:
 
 ```bash
-npm install @trustification/exhort-javascript-api@${project.version}
+npm install @guacsec/trustify-da-api@${project.version}
 ```

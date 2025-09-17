@@ -1,26 +1,22 @@
 openapi: 3.0.3
 info:
-  title: Exhort API
-  description: Vulnerability analysis with Red Hat Trusted Profile Analyzer
+  title: Trustify Dependency Analytics API
+  description: Trustify Dependency Analytics API
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 4.1.0
+  version: 5.0.0
 servers:
-- url: https://rhda.rhcloud.com/api/v4
-  description: Production server
-- url: https://exhort-alpha.stage.devshift.net/api/v4
-  description: Staging server
+  - url: /api/v5
+    description: API v5 endpoint
 paths:
   /analysis:
     post:
       operationId: analysis
       summary: Takes a client-resolved dependency graph to perform a full stack analysis from all the available Vulnerability sources
       security:
-        - RhdaTokenAuth: []
-        - SnykTokenAuth: []
-        - OssIndexUserAuth: []
-          OssIndexTokenAuth: []
+        - BearerAuth: []
+        - DynamicVulnSourceAuth: []
         - {}
       parameters:
       - name: providers
@@ -28,12 +24,15 @@ paths:
         description: List of vulnerability providers to get the report from. Defaults to all available providers.
         required: false
         schema:
-          enum:
-          - snyk
-          - oss-index
-          - tpa
           type: string
-        example: tpa
+        example: trustify
+      - name: sources
+        in: query
+        description: List of vulnerability sources to get the report from. Defaults to all available sources.
+        required: false
+        schema:
+          type: string
+        example: osv
       - name: recommend
         in: query
         description: Whether to include recommendations in the report
@@ -82,10 +81,8 @@ paths:
       operationId: batchAnalysis
       summary: Takes a dictionary of client-resolved dependency graphs to perform a full stack analysis from all the available Vulnerability sources
       security:
-        - RhdaTokenAuth: [ ]
-        - SnykTokenAuth: [ ]
-        - OssIndexUserAuth: [ ]
-          OssIndexTokenAuth: [ ]
+        - BearerAuth: [ ]
+        - DynamicVulnSourceAuth: [ ]
         - {}
       parameters:
         - name: providers
@@ -93,12 +90,23 @@ paths:
           description: List of vulnerability providers to get the report from
           required: false
           schema:
-            enum:
-              - snyk
-              - oss-index
-              - tpa
             type: string
-          example: snyk
+          example: trustify
+        - name: sources
+          in: query
+          description: List of vulnerability sources to get the report from
+          required: false
+          schema:
+            type: string
+          example: osv
+        - name: recommend
+          in: query
+          description: Whether to include recommendations in the report
+          required: false
+          schema:
+            type: boolean
+            default: true
+          example: true
       requestBody:
         required: true
         description: A dictionary of package URLs to dependency graphs in SBOM format
@@ -147,10 +155,7 @@ paths:
       operationId: validateToken
       summary: Validates a vulnerability provider token
       security:
-        - RhdaTokenAuth: []
-        - SnykTokenAuth: []
-        - OssIndexUserAuth: []
-          OssIndexTokenAuth: []
+        - DynamicVulnSourceAuth: []
       responses:
         '200':
           description: Successful token validation
@@ -187,85 +192,14 @@ paths:
               schema:
                 type: string
                 description: Missing token
-  /model-cards:
-    post:
-      operationId: listModelCards
-      summary: List model cards for the given model names
-      security:
-        - BearerAuth: []
-        - {}
-      requestBody:
-        required: true
-        description: Model names to get the model cards for
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ModelCardQueryRequest'
-      responses:
-        '200':
-          description: Successful model cards retrieval
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/ListModelCardResponse'
-                description: Map of model names to arrays of matching model cards
-        '400':
-          description: Invalid request
-          content:
-            text/plain:
-              schema:
-                type: string
-                description: Error message
-  /model-card/{id}:
-    get:
-      operationId: getModelCard
-      summary: Get a model card by id
-      security:
-        - BearerAuth: []
-        - {}
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            description: Unique identifier for the model card
-      responses:
-        '200':
-          description: Successful model card retrieval
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ModelCardResponse'
-        '404':
-          description: Model card not found
-          content:
-            text/plain:
-              schema:
-                type: string
 
 components:
   securitySchemes:
-    RhdaTokenAuth:
+    DynamicVulnSourceAuth:
       type: apiKey
       in: header
-      name: rhda-token
-    SnykTokenAuth:
-      type: apiKey
-      in: header
-      name: ex-snyk-token
-    OssIndexUserAuth:
-      type: apiKey
-      in: header
-      name: ex-oss-index-name
-    OssIndexTokenAuth:
-      type: apiKey
-      in: header
-      name: ex-oss-index-token
+      name: ex-{vuln-source-id}-token
+      description: Dynamic vulnerability source token for multi-tenant deployments
     BearerAuth:
       type: http
       scheme: bearer
@@ -479,195 +413,4 @@ components:
         ref:
           $ref: '#/components/schemas/PackageRef'
         reason:
-          type: string
-    ModelCardQueryRequest:
-      type: object
-      properties:
-        queries:
-          type: array
-          items:
-            $ref: '#/components/schemas/ModelCardQueryItem'
-    ModelCardQueryItem:
-      type: object
-      properties:
-        model_name:
-          type: string
-        filter:
-          type: object
-          additionalProperties:
-            type: string
-    ListModelCardResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the model card
-        name:
-          type: string
-          description: Name of the report
-        model_name:
-          type: string
-          description: Name of the model
-        metrics:
-          type: array
-          items:
-            $ref: '#/components/schemas/MetricSummary'
-    MetricSummary:
-      type: object
-      properties:
-        task:
-          type: string
-          description: Task name evaluated
-        metric:
-          type: string
-          description: Metric name evaluated
-        score:
-          type: number
-          format: float
-          minimum: 0
-          maximum: 1
-          description: Floating point score between 0 and 1
-        assessment:
-          type: string
-          description: Category of how the metric is evaluated
-    ModelCardResponse:
-      type: object
-      description: Model card response
-      properties:
-        id:
-          type: string
-          nullable: false
-          description: Unique identifier for the model card
-        name:
-          type: string
-          description: Name of the report
-        source:
-          type: string
-          description: Source of the model
-        config:
-          $ref: '#/components/schemas/ReportConfig'
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportTask'
-        guardrails:
-          type: array
-          items:
-            $ref: '#/components/schemas/Guardrail'
-    ReportConfig:
-      type: object
-      properties:
-        model_name:
-          type: string
-        model_source:
-          type: string
-        model_revision:
-          type: string
-        model_revision_sha:
-          type: string
-        dtype:
-          type: string
-        batch_size:
-          type: string
-        batch_sizes:
-          type: array
-          items:
-            type: integer
-        lm_eval_version:
-          type: string
-        transformers_version:
-          type: string
-    ReportTask:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        metrics:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReportMetric'
-        tags:
-          type: array
-          items:
-            type: string
-    ReportMetric:
-      type: object
-      properties:
-        name:
-          type: string
-        categories:
-          type: array
-          items:
-            type: string
-        higher_is_better:
-          type: boolean
-        score:
-          type: number
-          format: float
-          minimum: 0
-          maximum: 1
-        thresholds:
-          type: array
-          items:
-            $ref: '#/components/schemas/MetricThreshold'
-        guardrails:
-          type: array
-          description: Guardrail IDs that are recommended to be used to improve the metric score
-          items:
-            type: integer
-            format: int64
-    MetricThreshold:
-      type: object
-      properties:
-        impact:
-          type: string
-          enum:
-            - no_measurable
-            - very_low
-            - low
-            - moderate
-            - high
-            - severe
-        category:
-          type: integer
-        interpretation:
-          type: string
-        upper:
-          type: number
-          format: float
-          minimum: 0
-          maximum: 1
-        lower:
-          type: number
-          format: float
-          minimum: 0
-          maximum: 1
-    Guardrail:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier for the guardrail
-        name:
-          type: string
-        description:
-          type: string
-        metadata_keys:
-          type: array
-          items:
-            type: string
-        scope:
-          type: string
-          enum:
-            - input
-            - output
-            - both
-        external_references:
-          type: array
-          items:
-            type: string
-        instructions:
           type: string

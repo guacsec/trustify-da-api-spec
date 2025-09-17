@@ -18,12 +18,12 @@ jobs:
     name: Tests
     strategy:
       matrix:
-        java: [11, 17, 21]
+        java: [17, 21]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
       - name: Set up Java ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
@@ -34,11 +34,9 @@ jobs:
     name: OpenAPI Linter
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+        uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 18
-      - name: v3 Lint
-        run: npx @redocly/cli lint api/v3/openapi.yaml
-      - name: v4 Lint
-        run: npx @redocly/cli lint api/v4/openapi.yaml
+      - name: v5 Lint
+        run: npx @redocly/cli lint api/v5/openapi.yaml
