@@ -24,7 +24,7 @@
     "precompile": "rm -rf dist && npm run lint",
     "compile": "tsc -p tsconfig.json",
     "fix-types": "node fix-types.js",
-    "publish:snapshot": "npm version prerelease --preid rc && npm publish --tag rc --access public --provenance",
+    "publish:snapshot": "npm version ${project.version}-rc.${RC_VERSION:-0} && npm publish --tag rc --access public --provenance",
     "publish:release": "npm publish --access public --provenance"
   },
   "keywords": [
