@@ -650,7 +650,7 @@ limitations under the License.]]>
                   <goal>yarn</goal>
                 </goals>
                 <configuration>
-                  <arguments>publish --access public</arguments>
+                  <arguments>run publish:release</arguments>
                   <environmentVariables>
                     <NPM_TOKEN>${env.NPM_TOKEN}</NPM_TOKEN>
                   </environmentVariables>
