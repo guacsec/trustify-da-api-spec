@@ -37,9 +37,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Set NPM auth token
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
-      - name: Build and Publish to GitHub Maven Packages
+      - name: Build and Publish to GitHub Maven Packages and npm Registry
         run: mvn -B deploy -Ppublish --file pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

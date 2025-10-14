@@ -12,6 +12,7 @@
   <inceptionYear>2023</inceptionYear>
 
   <properties>
+    <package.name>trustify-da-api-model</package.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>17</maven.compiler.release>
     <js-api>${project.build.directory}/js-api</js-api>
@@ -20,7 +21,7 @@
     <!-- Dependencies -->
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.5.0</quarkus.platform.version>
+    <quarkus.platform.version>3.28.2</quarkus.platform.version>
     <packageurl.version>1.5.0</packageurl.version>
     <!-- Plugins -->
     <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
@@ -129,6 +130,7 @@
   </dependencies>
 
   <build>
+    <finalName>${package.name}-${project.version}</finalName>
     <pluginManagement>
       <plugins>
         <!-- Apache Plugins -->
@@ -194,6 +196,10 @@
                 <resources>
                   <resource>
                     <directory>${basedir}/src/filtered/js-api</directory>
+                    <filtering>true</filtering>
+                  </resource>
+                  <resource>
+                    <directory>${basedir}/src/filtered/base</directory>
                     <filtering>true</filtering>
                   </resource>
                 </resources>
@@ -644,7 +650,10 @@ limitations under the License.]]>
                   <goal>yarn</goal>
                 </goals>
                 <configuration>
-                  <arguments>publish</arguments>
+                  <arguments>publish --access public</arguments>
+                  <environmentVariables>
+                    <NPM_TOKEN>${env.NPM_TOKEN}</NPM_TOKEN>
+                  </environmentVariables>
                 </configuration>
               </execution>
             </executions>

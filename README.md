@@ -19,22 +19,15 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 ```xml
 <dependency>
   <groupId>com.github.guacsec</groupId>
-  <artifactId>trustify-da-api</artifactId>
+  <artifactId>trustify-da-api-model</artifactId>
   <version>1.0.19-SNAPSHOT</version>
 </dependency>
 ```
 
 ## Use the Javascript data model
 
-Configuring NPM to look in GHPR for the `guacsec` namespace is done by adding `@guacsec:registry=https://npm.pkg.github.com`
-to _.npmrc_ in the project root or user home.
+Add it to your project as follows:
 
 ```bash
-echo "@guacsec:registry=https://npm.pkg.github.com" >> .npmrc
-```
-
-Then, add it to your project as follows:
-
-```bash
-npm install @guacsec/trustify-da-api@1.0.19-SNAPSHOT
+npm install @guacsec/trustify-da-api-model@1.0.19-SNAPSHOT
 ```

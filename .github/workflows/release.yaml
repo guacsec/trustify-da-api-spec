@@ -38,7 +38,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '20.9.0'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Remove snapshot
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Get version
         id: get_version
