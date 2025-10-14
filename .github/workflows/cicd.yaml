@@ -44,7 +44,10 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Build and Publish to GitHub Maven Packages and npm Registry
-        run: mvn -B deploy -Ppublish --file pom.xml
+        run: |
+          # Get the base version and strip -SNAPSHOT for npm
+          export BASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
+          mvn -B deploy -Ppublish --file pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
