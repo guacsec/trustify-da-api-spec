@@ -19,6 +19,7 @@ jobs:
       contents: write
       packages: write
       pull-requests: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -37,11 +38,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '20.9.0'
-          registry-url: 'https://registry.npmjs.org/'
-
-      - name: Set up npm authentication
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Remove snapshot
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
@@ -51,7 +49,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Get version
         id: get_version
