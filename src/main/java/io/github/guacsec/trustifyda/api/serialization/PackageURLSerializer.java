@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.trustifyda.api.serialization;
+package io.github.guacsec.trustifyda.api.serialization;
 
 import java.io.IOException;
 

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.trustifyda.api.v5;
+package io.github.guacsec.trustifyda.api.v5;
 
 public class SeverityUtils {
 

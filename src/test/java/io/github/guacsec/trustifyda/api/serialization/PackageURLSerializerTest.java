@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.trustifyda.api.serialization;
+package io.github.guacsec.trustifyda.api.serialization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.guacsec.trustifyda.api.PackageRef;
+
+import io.github.guacsec.trustifyda.api.PackageRef;
 
 public class PackageURLSerializerTest {
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     void testSerialize() throws JsonProcessingException {

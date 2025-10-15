@@ -15,15 +15,16 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.trustifyda.api;
+package io.github.guacsec.trustifyda.api;
 
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.github.guacsec.trustifyda.api.serialization.PackageURLSerializer;
 import com.github.packageurl.MalformedPackageURLException;
 import com.github.packageurl.PackageURL;
+
+import io.github.guacsec.trustifyda.api.serialization.PackageURLSerializer;
 
 public class PackageRef {
 

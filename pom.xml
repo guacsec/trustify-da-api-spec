@@ -3,16 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.github.guacsec</groupId>
-  <artifactId>trustify-da-api</artifactId>
-  <version>1.0.19-SNAPSHOT</version>
+  <groupId>io.github.guacsec</groupId>
+  <artifactId>trustify-da-api-model</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
   <name>Trustify Dependency Analytics API Spec</name>
   <description>Trustify :: Dependency Analytics :: Java API</description>
   <url>https://github.com/guacsec/trustify-da-api-spec</url>
   <inceptionYear>2023</inceptionYear>
 
   <properties>
-    <package.name>trustify-da-api-model</package.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>17</maven.compiler.release>
     <js-api>${project.build.directory}/js-api</js-api>
@@ -45,6 +44,7 @@
     <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
     <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
     <frontend-maven-plugin.version>1.13.4</frontend-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
     <!-- Node and Yarn -->
     <node.version>v20.9.0</node.version>
     <yarn.version>v1.22.19</yarn.version>
@@ -57,6 +57,15 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+  <developers>
+    <developer>
+      <name>Ruben Romero Montes</name>
+      <email>rromerom@redhat.com</email>
+      <organization>Red Hat</organization>
+      <organizationUrl>https://www.redhat.com</organizationUrl>
+    </developer>
+  </developers>
 
   <issueManagement>
     <system>GitHub Issues</system>
@@ -77,10 +86,13 @@
 
   <distributionManagement>
     <repository>
-      <id>github</id>
-      <name>Guacsec Maven Packages</name>
-      <url>https://maven.pkg.github.com/guacsec/trustify-da-api-spec</url>
+      <id>central</id>
+      <name>Maven Central</name>
     </repository>
+    <snapshotRepository>
+      <id>central</id>
+      <name>Maven Central Snapshots</name>
+    </snapshotRepository>
   </distributionManagement>
 
   <dependencyManagement>
@@ -130,7 +142,6 @@
   </dependencies>
 
   <build>
-    <finalName>${package.name}-${project.version}</finalName>
     <pluginManagement>
       <plugins>
         <!-- Apache Plugins -->
@@ -307,6 +318,12 @@ limitations under the License.]]>
           <artifactId>frontend-maven-plugin</artifactId>
           <version>${frontend-maven-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>${central-publishing-maven-plugin.version}</version>
+          <extensions>true</extensions>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -422,7 +439,7 @@ limitations under the License.]]>
             <configuration>
               <inputSpec>${project.basedir}/api/v5/openapi.yaml</inputSpec>
               <generatorName>java</generatorName>
-              <modelPackage>com.github.guacsec.trustifyda.api.v5</modelPackage>
+              <modelPackage>io.github.guacsec.trustifyda.api.v5</modelPackage>
               <output>${project.build.directory}</output>
               <configOptions>
                 <documentationProvider>none</documentationProvider>
@@ -441,7 +458,7 @@ limitations under the License.]]>
               <addCompileSourceRoot>false</addCompileSourceRoot>
               <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
               <inlineSchemaNameMappings>analysis_200_response=AnalysisResponse</inlineSchemaNameMappings>
-              <schemaMappings>PackageRef=com.github.guacsec.trustifyda.api.PackageRef</schemaMappings>
+              <schemaMappings>PackageRef=io.github.guacsec.trustifyda.api.PackageRef</schemaMappings>
             </configuration>
           </execution>
           <execution>
@@ -582,6 +599,22 @@ limitations under the License.]]>
       <id>release</id>
       <build>
         <plugins>
+          <!-- Disable the default maven-deploy-plugin to avoid conflict -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+            </configuration>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>

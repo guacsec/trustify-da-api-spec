@@ -1,5 +1,5 @@
 {
-  "name": "@trustify-da/${package.name}",
+  "name": "@trustify-da/${project.artifactId}",
   "version": "${project.version}",
   "description": "Trustify :: Dependency Analytics :: API",
   "author": "Trustify Dependency Analytics Authors",
