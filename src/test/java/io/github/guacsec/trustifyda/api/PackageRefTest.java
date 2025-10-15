@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
-package com.github.guacsec.trustifyda.api;
+package io.github.guacsec.trustifyda.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+
+import io.github.guacsec.trustifyda.api.PackageRef;
 
 public class PackageRefTest {
 

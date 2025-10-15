@@ -18,7 +18,7 @@ The packages are published to the GitHub maven repository. Make sure to add it t
 
 ```xml
 <dependency>
-  <groupId>com.github.guacsec</groupId>
+  <groupId>io.github.guacsec</groupId>
   <artifactId>trustify-da-api-model</artifactId>
   <version>${project.version}</version>
 </dependency>

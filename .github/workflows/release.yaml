@@ -45,11 +45,13 @@ jobs:
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
 
       - name: Build and Deploy
-        run: mvn -B deploy -Ppublish -Prelease
+        run: mvn -s .github/workflows/maven/settings.xml -B deploy -Ppublish -Prelease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
 
       - name: Get version
         id: get_version
