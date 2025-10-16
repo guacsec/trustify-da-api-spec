@@ -41,7 +41,12 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Set version
+        if: github.event.inputs.version != ''
+        run: mvn -B versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+
       - name: Remove snapshot
+        if: github.event.inputs.version == ''
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
 
       - name: Build and Deploy
@@ -70,11 +75,7 @@ jobs:
       - name: Update to next version
         if: success()
         run: |
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            mvn -B release:update-versions -DnewVersion=${{ github.event.inputs.version }}
-          else
-            mvn -B release:update-versions
-          fi
+          mvn -B release:update-versions
           # Run the phase that triggers README.md update
           mvn -B validate
 
@@ -89,10 +90,3 @@ jobs:
           body: |
             This PR updates the project to the next development version after the release.
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Enable auto-merge for the PR
-        if: ${{ success() && steps.cpr.outputs.pull-request-number != '' }}
-        run: |
-          gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --merge --auto
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
