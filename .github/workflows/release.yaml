@@ -64,7 +64,6 @@ jobs:
         if: github.event.inputs.version == ''
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
 
-
       - name: Build
         run: mvn -s .github/workflows/maven/settings.xml -B package
 
