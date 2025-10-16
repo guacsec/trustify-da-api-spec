@@ -28,9 +28,15 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
-        env:
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: List GPG Keys
+        run: |
+          echo "=== GPG Secret Keys ==="
+          gpg --list-secret-keys --keyid-format LONG
+          echo "=== GPG Public Keys ==="
+          gpg --list-public-keys --keyid-format LONG
+          echo "=== GPG Keyring Info ==="
+          ls -la ~/.gnupg/
 
       - name: Set up Node.js
         uses: actions/setup-node@v5
@@ -42,6 +48,7 @@ jobs:
         run: mvn -s .github/workflows/maven/settings.xml -B verify -Ppublish -Prelease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
