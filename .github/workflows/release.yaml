@@ -90,10 +90,3 @@ jobs:
           body: |
             This PR updates the project to the next development version after the release.
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Enable auto-merge for the PR
-        if: ${{ success() && steps.cpr.outputs.pull-request-number != '' }}
-        run: |
-          gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --merge --auto
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
