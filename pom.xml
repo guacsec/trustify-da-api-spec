@@ -28,7 +28,7 @@
     <maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
     <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
-    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+    <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <maven-help-plugin.version>3.4.0</maven-help-plugin.version>
     <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
     <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
@@ -633,8 +633,6 @@ limitations under the License.]]>
                     <arg>--batch</arg>
                     <arg>--pinentry-mode</arg>
                     <arg>loopback</arg>
-                    <arg>--passphrase</arg>
-                    <arg>${env.GPG_PASSPHRASE}</arg>
                   </gpgArguments>
                 </configuration>
               </execution>
