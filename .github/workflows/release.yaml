@@ -6,6 +6,16 @@ on:
         description: 'Custom version (optional)'
         required: false
         type: string
+      publish_npm:
+        description: 'Publish to npm registry'
+        required: false
+        type: boolean
+        default: true
+      publish_maven:
+        description: 'Publish to Maven Central'
+        required: false
+        type: boolean
+        default: true
 
 concurrency:
   group: release-${{ github.ref }}
@@ -56,14 +66,25 @@ jobs:
         if: github.event.inputs.version == ''
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
 
-      - name: Build and Deploy
-        run: mvn -s .github/workflows/maven/settings.xml -B deploy -Ppublish -Prelease
+
+      - name: Build
+        run: mvn -s .github/workflows/maven/settings.xml -B package
+
+      - name: Publish to Maven Central
+        if: ${{ !inputs.bump_only && inputs.publish_maven == 'true' }}
+        run: mvn -s .github/workflows/maven/settings.xml -B deploy -Ppublish-maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+
+      - name: Publish to npm
+        if: ${{ !inputs.bump_only && inputs.publish_npm == 'true' }}
+        run: mvn -s .github/workflows/maven/settings.xml -B deploy -Ppublish-npm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Get version
         id: get_version
