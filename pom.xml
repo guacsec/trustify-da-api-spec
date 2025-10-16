@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.guacsec</groupId>
@@ -271,7 +273,7 @@
                   <include>src/it/**/src/test/**</include>
                 </includes>
                 <!--suppress
-                UnresolvedMavenProperty -->
+                                UnresolvedMavenProperty -->
                 <inlineHeader><![CDATA[Copyright 2023-2025 ${owner}
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -286,7 +288,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
 See the License for the specific language governing permissions and
 limitations under the License.]]>
-                </inlineHeader>
+                                </inlineHeader>
               </licenseSet>
             </licenseSets>
             <skipExistingHeaders>false</skipExistingHeaders>
@@ -331,7 +333,7 @@ limitations under the License.]]>
 
     <plugins>
       <!-- help:active-profiles is bound to the validate phase and will print a list of active
-      profiles. -->
+            profiles. -->
       <plugin>
         <artifactId>maven-help-plugin</artifactId>
         <executions>
@@ -344,24 +346,8 @@ limitations under the License.]]>
         </executions>
       </plugin>
 
-      <!-- flatten-maven-plugin:clean is bound to the clean phase and will delete the
-      .flattened-pom.xml file. -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- enforcer:enforce is bound to the validate phase and will fail for the configured
-      constraints. -->
+            constraints. -->
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
         <dependencies>
@@ -394,7 +380,7 @@ limitations under the License.]]>
       </plugin>
 
       <!-- license-maven-plugin:check is bound to the verify phase and will fail for unlicensed
-      sources. -->
+            sources. -->
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -408,7 +394,7 @@ limitations under the License.]]>
       </plugin>
 
       <!-- build-helper-maven-plugin:add-source is bound to the generate-sources phase and will
-      include generated files as sources -->
+            include generated files as sources -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -428,7 +414,7 @@ limitations under the License.]]>
       </plugin>
 
       <!-- openapi-generator-maven-plugin:generate is bound to the generate-sources phase and will
-      generate sources from the api spec -->
+            generate sources from the api spec -->
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -549,7 +535,8 @@ limitations under the License.]]>
           <installDirectory>target</installDirectory>
         </configuration>
       </plugin>
-      <!-- Disable the default maven-deploy-plugin to avoid conflict with central-publishing-maven-plugin -->
+      <!-- Disable the default maven-deploy-plugin to avoid conflict with
+      central-publishing-maven-plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
@@ -566,78 +553,58 @@ limitations under the License.]]>
           <autoPublish>true</autoPublish>
         </configuration>
       </plugin>
+
+      <!-- flatten-maven-plugin:flatten is bound to the process-resources phase and will create
+            a .flattened-pom.xml -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- source:jar is bound to the generate-sources phase and will create a sources jar -->
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- javadoc:jar is bound to the generate-sources phase and will create a javadoc jar -->
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
-      <id>publish</id>
+      <id>publish-npm</id>
       <build>
         <plugins>
-<!-- flatten-maven-plugin:flatten is bound to the process-resources phase and will create
-          a .flattened-pom.xml -->
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>flatten-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>flatten</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>flatten</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- source:jar is bound to the generate-sources phase and will create a sources jar -->
-          <plugin>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!-- javadoc:jar is bound to the generate-sources phase and will create a javadoc jar -->
-          <plugin>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-                <configuration>
-                  <gpgArguments>
-                    <arg>--batch</arg>
-                    <arg>--pinentry-mode</arg>
-                    <arg>loopback</arg>
-                  </gpgArguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <groupId>com.github.eirslett</groupId>
             <artifactId>frontend-maven-plugin</artifactId>
@@ -698,6 +665,41 @@ limitations under the License.]]>
               <yarnVersion>${yarn.version}</yarnVersion>
               <workingDirectory>${js-api}</workingDirectory>
               <installDirectory>target</installDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>publish-maven</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--batch</arg>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
             </configuration>
           </plugin>
         </plugins>
