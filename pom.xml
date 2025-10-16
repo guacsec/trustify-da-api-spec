@@ -633,6 +633,8 @@ limitations under the License.]]>
                     <arg>--batch</arg>
                     <arg>--pinentry-mode</arg>
                     <arg>loopback</arg>
+                    <arg>--passphrase</arg>
+                    <arg>${env.GPG_PASSPHRASE}</arg>
                   </gpgArguments>
                 </configuration>
               </execution>
