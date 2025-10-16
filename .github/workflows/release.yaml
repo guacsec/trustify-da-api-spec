@@ -27,9 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
       pull-requests: write
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -71,7 +69,7 @@ jobs:
         run: mvn -s .github/workflows/maven/settings.xml -B package
 
       - name: Publish to Maven Central
-        if: ${{ !inputs.bump_only && inputs.publish_maven == 'true' }}
+        if: ${{ inputs.publish_maven == 'true' }}
         run: mvn -s .github/workflows/maven/settings.xml -B deploy -Ppublish-maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +78,7 @@ jobs:
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
 
       - name: Publish to npm
-        if: ${{ !inputs.bump_only && inputs.publish_npm == 'true' }}
+        if: ${{ inputs.publish_npm == 'true' }}
         run: mvn -s .github/workflows/maven/settings.xml -B deploy -Ppublish-npm
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -117,4 +115,3 @@ jobs:
           signoff: true
           body: |
             This PR updates the project to the next development version after the release.
-          token: ${{ secrets.GITHUB_TOKEN }}
