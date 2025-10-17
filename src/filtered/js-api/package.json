@@ -1,6 +1,6 @@
 {
   "name": "@trustify-da/${project.artifactId}",
-  "version": "${project.version}",
+  "version": "${npm.version}",
   "description": "Trustify :: Dependency Analytics :: API",
   "author": "Trustify Dependency Analytics Authors",
   "type": "commonjs",
