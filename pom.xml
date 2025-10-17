@@ -602,7 +602,7 @@ limitations under the License.]]>
   </build>
   <profiles>
     <profile>
-      <id>publish-npm</id>
+      <id>release-npm</id>
       <build>
         <plugins>
           <plugin>
@@ -671,7 +671,13 @@ limitations under the License.]]>
       </build>
     </profile>
     <profile>
-      <id>publish-maven</id>
+      <id>gpg-sign</id>
+      <activation>
+        <property>
+          <name>maven.deploy.skip</name>
+          <value>!true</value>
+        </property>
+      </activation>
       <build>
         <plugins>
           <plugin>
@@ -693,14 +699,6 @@ limitations under the License.]]>
                 </configuration>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <configuration>
-              <publishingServerId>central</publishingServerId>
-              <autoPublish>true</autoPublish>
-            </configuration>
           </plugin>
         </plugins>
       </build>
