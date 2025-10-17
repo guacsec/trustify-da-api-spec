@@ -48,6 +48,10 @@
     <!-- Node and Yarn -->
     <node.version>v20.9.0</node.version>
     <yarn.version>v1.22.19</yarn.version>
+    <!-- NPM Publishing -->
+    <rc.version>0</rc.version>
+    <npm.version>${version.release}-rc.${rc.version}</npm.version>
+    <npm.tag>--tag rc</npm.tag>
   </properties>
 
   <licenses>
@@ -398,6 +402,19 @@ limitations under the License.]]>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
           <execution>
+            <id>strip-snapshot</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>version.release</name>
+              <value>${project.version}</value>
+              <regex>-SNAPSHOT$</regex>
+              <replacement></replacement>
+            </configuration>
+          </execution>
+          <execution>
             <phase>generate-sources</phase>
             <goals>
               <goal>add-source</goal>
@@ -522,7 +539,7 @@ limitations under the License.]]>
               <goal>yarn</goal>
             </goals>
             <configuration>
-              <arguments>run publish:snapshot</arguments>
+              <arguments>run publish</arguments>
             </configuration>
           </execution>
         </executions>
@@ -600,76 +617,17 @@ limitations under the License.]]>
   </build>
   <profiles>
     <profile>
-      <id>publish-npm</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.github.eirslett</groupId>
-            <artifactId>frontend-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>install node and yarn</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>install-node-and-yarn</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>yarn install</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>yarn</goal>
-                </goals>
-                <configuration>
-                  <arguments>install</arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>fix-type-definitions</id>
-                <phase>generate-sources</phase>
-                <goals>
-                  <goal>yarn</goal>
-                </goals>
-                <configuration>
-                  <arguments>run fix-types</arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>yarn compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>yarn</goal>
-                </goals>
-                <configuration>
-                  <arguments>run compile</arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>yarn publish</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>yarn</goal>
-                </goals>
-                <configuration>
-                  <arguments>run publish:release</arguments>
-                  <environmentVariables>
-                    <NPM_TOKEN>${env.NPM_TOKEN}</NPM_TOKEN>
-                  </environmentVariables>
-                </configuration>
-              </execution>
-            </executions>
-            <configuration>
-              <nodeVersion>${node.version}</nodeVersion>
-              <yarnVersion>${yarn.version}</yarnVersion>
-              <workingDirectory>${js-api}</workingDirectory>
-              <installDirectory>target</installDirectory>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <id>release-npm</id>
+      <properties>
+        <npm.version>${version.release}</npm.version>
+        <npm.tag/>
+      </properties>
     </profile>
     <profile>
-      <id>publish-maven</id>
+      <id>gpg-sign</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>
@@ -678,7 +636,7 @@ limitations under the License.]]>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
-                <phase>verify</phase>
+                <phase>deploy</phase>
                 <goals>
                   <goal>sign</goal>
                 </goals>
@@ -691,14 +649,6 @@ limitations under the License.]]>
                 </configuration>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <configuration>
-              <publishingServerId>central</publishingServerId>
-              <autoPublish>true</autoPublish>
-            </configuration>
           </plugin>
         </plugins>
       </build>
