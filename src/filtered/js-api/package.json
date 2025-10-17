@@ -24,7 +24,7 @@
     "precompile": "rm -rf dist && npm run lint",
     "compile": "tsc -p tsconfig.json",
     "fix-types": "node fix-types.js",
-    "publish": "npm version ${npm.version} --no-git-tag-version && npm publish ${npm.tag} --access public --provenance"
+    "publish": "npm publish ${npm.tag} --access public --provenance"
   },
   "keywords": [
     "analysis",
