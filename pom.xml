@@ -412,6 +412,7 @@ limitations under the License.]]>
               <value>${project.version}</value>
               <regex>-SNAPSHOT$</regex>
               <replacement></replacement>
+              <failIfNoMatch>false</failIfNoMatch>
             </configuration>
           </execution>
           <execution>
