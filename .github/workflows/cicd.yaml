@@ -53,13 +53,10 @@ jobs:
 
       - name: Build and Publish to Maven Central and NPM registry
         run: |
-          # Get the base version and strip -SNAPSHOT for npm
-          export BASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
-          mvn -B deploy --file pom.xml --settings .github/workflows/maven/settings.xml
+          mvn -B deploy -Drc.version=${{ github.run_number }} --file pom.xml --settings .github/workflows/maven/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          RC_VERSION: ${{ github.run_number }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

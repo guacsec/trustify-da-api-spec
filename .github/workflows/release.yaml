@@ -54,11 +54,8 @@ jobs:
         if: github.event.inputs.version == ''
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
 
-      - name: Build
-        run: mvn -s .github/workflows/maven/settings.xml -B package
-
-      - name: Publish to Maven Central and NPM registry
-        run: mvn -s .github/workflows/maven/settings.xml -B deploy -Prelease-npm
+      - name: Build and Publish to Maven Central and NPM registry
+        run: mvn -B deploy -Prelease-npm --settings .github/workflows/maven/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
