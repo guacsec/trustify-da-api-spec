@@ -539,7 +539,7 @@ limitations under the License.]]>
               <goal>yarn</goal>
             </goals>
             <configuration>
-              <arguments>run publish</arguments>
+              <arguments>run publish-package</arguments>
             </configuration>
           </execution>
         </executions>
