@@ -533,16 +533,6 @@ limitations under the License.]]>
               <arguments>run compile</arguments>
             </configuration>
           </execution>
-          <execution>
-            <id>yarn publish</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>yarn</goal>
-            </goals>
-            <configuration>
-              <arguments>run publish-package</arguments>
-            </configuration>
-          </execution>
         </executions>
         <configuration>
           <nodeVersion>${node.version}</nodeVersion>
@@ -558,15 +548,6 @@ limitations under the License.]]>
         <artifactId>maven-deploy-plugin</artifactId>
         <configuration>
           <skip>true</skip>
-        </configuration>
-      </plugin>
-      <!-- Central Publishing Plugin for Maven Central deployment -->
-      <plugin>
-        <groupId>org.sonatype.central</groupId>
-        <artifactId>central-publishing-maven-plugin</artifactId>
-        <configuration>
-          <publishingServerId>central</publishingServerId>
-          <autoPublish>true</autoPublish>
         </configuration>
       </plugin>
 
@@ -623,6 +604,45 @@ limitations under the License.]]>
         <npm.version>${version.release}</npm.version>
         <npm.tag/>
       </properties>
+    </profile>
+    <profile>
+      <id>publish-maven</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <publishingServerId>central</publishingServerId>
+              <autoPublish>true</autoPublish>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>publish-npm</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>yarn publish</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>yarn</goal>
+                </goals>
+                <configuration>
+                  <arguments>run publish-package</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>gpg-sign</id>
