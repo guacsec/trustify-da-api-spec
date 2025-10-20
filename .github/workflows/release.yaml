@@ -99,9 +99,22 @@ jobs:
           echo "Maven artifact exists: ${{ steps.check_maven.outputs.maven_exists }}"
           echo "Will publish: ${{ steps.check_npm.outputs.npm_exists == 'false' || steps.check_maven.outputs.maven_exists == 'false' }}"
 
+      - name: Compute Maven profiles
+        id: compute_profiles
+        run: |
+          PROFILES="gpg-sign,release-npm"
+          if [ "${{ steps.check_npm.outputs.npm_exists }}" = "false" ]; then
+            PROFILES="${PROFILES},publish-npm"
+          fi
+          if [ "${{ steps.check_maven.outputs.maven_exists }}" = "false" ]; then
+            PROFILES="${PROFILES},publish-maven"
+          fi
+          PROFILES="${PROFILES#,}"
+          echo "profiles=-P$PROFILES" >> $GITHUB_OUTPUT
+
       - name: Build and Publish to Maven Central and NPM registry
         if: steps.check_npm.outputs.npm_exists == 'false' || steps.check_maven.outputs.maven_exists == 'false'
-        run: mvn -B deploy -Pgpg-sign -Prelease-npm --settings .github/workflows/maven/settings.xml
+        run: mvn -B deploy ${{ steps.compute_profiles.outputs.profiles }} --settings .github/workflows/maven/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
