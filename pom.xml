@@ -5,7 +5,7 @@
 
   <groupId>io.github.guacsec</groupId>
   <artifactId>trustify-da-api-model</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <version>2.0.2-SNAPSHOT</version>
   <name>Trustify Dependency Analytics API Spec</name>
   <description>Trustify :: Dependency Analytics :: Java API</description>
   <url>https://github.com/guacsec/trustify-da-api-spec</url>
@@ -411,7 +411,7 @@ limitations under the License.]]>
               <name>version.release</name>
               <value>${project.version}</value>
               <regex>-SNAPSHOT$</regex>
-              <replacement></replacement>
+              <replacement />
               <failIfNoMatch>false</failIfNoMatch>
             </configuration>
           </execution>
@@ -602,7 +602,7 @@ limitations under the License.]]>
       <id>release-npm</id>
       <properties>
         <npm.version>${version.release}</npm.version>
-        <npm.tag/>
+        <npm.tag />
       </properties>
     </profile>
     <profile>
