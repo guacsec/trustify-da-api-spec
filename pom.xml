@@ -626,9 +626,6 @@ limitations under the License.]]>
     </profile>
     <profile>
       <id>gpg-sign</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <build>
         <plugins>
           <plugin>
@@ -637,7 +634,7 @@ limitations under the License.]]>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
-                <phase>deploy</phase>
+                <phase>verify</phase>
                 <goals>
                   <goal>sign</goal>
                 </goals>
