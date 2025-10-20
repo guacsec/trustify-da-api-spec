@@ -55,8 +55,53 @@ jobs:
         if: github.event.inputs.version == ''
         run: mvn -B versions:set -DremoveSnapshot -DgenerateBackupPoms=false
 
+      - name: Get version
+        id: get_version
+        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      - name: Check if NPM package version exists
+        id: check_npm
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          echo "Checking if NPM package version $VERSION exists..."
+          if npm view @trustify-da/trustify-da-api-model@$VERSION version 2>/dev/null; then
+            echo "npm_exists=true" >> $GITHUB_OUTPUT
+            echo "NPM package version $VERSION already exists, skipping NPM publish"
+          else
+            echo "npm_exists=false" >> $GITHUB_OUTPUT
+            echo "NPM package version $VERSION does not exist, will publish"
+          fi
+        continue-on-error: true
+
+      - name: Check if Maven artifact version exists
+        id: check_maven
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          GROUP_ID="io.github.guacsec"
+          ARTIFACT_ID="trustify-da-api-model"
+          echo "Checking if Maven artifact $GROUP_ID:$ARTIFACT_ID:$VERSION exists..."
+
+          # Check Maven Central for the artifact
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "https://repo1.maven.org/maven2/io/github/guacsec/trustify-da-api-model/$VERSION/trustify-da-api-model-$VERSION.pom")
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "maven_exists=true" >> $GITHUB_OUTPUT
+            echo "Maven artifact $GROUP_ID:$ARTIFACT_ID:$VERSION already exists, skipping Maven publish"
+          else
+            echo "maven_exists=false" >> $GITHUB_OUTPUT
+            echo "Maven artifact $GROUP_ID:$ARTIFACT_ID:$VERSION does not exist (HTTP $HTTP_CODE), will publish"
+          fi
+        continue-on-error: true
+
+      - name: Show artifact check results
+        run: |
+          echo "=== Artifact Check Results ==="
+          echo "NPM package exists: ${{ steps.check_npm.outputs.npm_exists }}"
+          echo "Maven artifact exists: ${{ steps.check_maven.outputs.maven_exists }}"
+          echo "Will publish: ${{ steps.check_npm.outputs.npm_exists == 'false' || steps.check_maven.outputs.maven_exists == 'false' }}"
+
       - name: Build and Publish to Maven Central and NPM registry
-        run: mvn -B deploy -Prelease-npm --settings .github/workflows/maven/settings.xml
+        if: steps.check_npm.outputs.npm_exists == 'false' || steps.check_maven.outputs.maven_exists == 'false'
+        run: mvn -B deploy -Pgpg-sign -Prelease-npm --settings .github/workflows/maven/settings.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -64,9 +109,12 @@ jobs:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
 
-      - name: Get version
-        id: get_version
-        run: echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+      - name: Skip publishing - artifacts already exist
+        if: steps.check_npm.outputs.npm_exists == 'true' && steps.check_maven.outputs.maven_exists == 'true'
+        run: |
+          echo "Both NPM package and Maven artifact already exist, skipping publish step"
+          echo "NPM exists: ${{ steps.check_npm.outputs.npm_exists }}"
+          echo "Maven exists: ${{ steps.check_maven.outputs.maven_exists }}"
 
       - name: Create Release
         id: create_release
