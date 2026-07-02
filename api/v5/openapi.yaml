@@ -580,6 +580,23 @@ components:
         url:
           type: string
           description: URL with more information about the remediation
+        advisory:
+          $ref: '#/components/schemas/AdvisoryInfo'
+    AdvisoryInfo:
+      type: object
+      description: Source advisory attribution for a remediation
+      properties:
+        id:
+          type: string
+          description: Advisory identifier (e.g. RHSA-2024:1234, GHSA-xxxx-xxxx-xxxx)
+        title:
+          type: string
+          description: Advisory title or summary
+        url:
+          type: string
+          description: URL to the full advisory document
+      required:
+        - id
     VersionRange:
       type: object
       description: Affected version range from a vulnerability advisory. Fields present depend on the range type - Full (all fields), Left (scheme and low bound), Right (scheme and high bound), or Unbounded (empty).
