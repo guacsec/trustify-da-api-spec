@@ -5,7 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 5.3.0
+  version: 5.4.0
 servers:
   - url: /api/v5
     description: API v5 endpoint
@@ -539,16 +539,11 @@ components:
           type: array
           items:
             type: string
-        remediations:
+        advisories:
           type: array
-          description: Detailed remediation information from vulnerability advisories
+          description: Remediation details grouped by source advisory
           items:
-            $ref: '#/components/schemas/RemediationInfo'
-        versionRanges:
-          type: array
-          description: Affected version ranges from vulnerability advisories
-          items:
-            $ref: '#/components/schemas/VersionRange'
+            $ref: '#/components/schemas/AdvisoryRemediation'
         trustedContent:
           type: object
           properties:
@@ -568,9 +563,31 @@ components:
         - NO_FIX_PLANNED
         - NONE_AVAILABLE
         - WILL_NOT_FIX
+    AdvisoryRemediation:
+      type: object
+      description: Remediation information grouped by source advisory. Each entry represents one advisory's assessment of a vulnerability, including the affected version ranges, the fix version, and the remediation actions.
+      properties:
+        advisory:
+          $ref: '#/components/schemas/AdvisoryInfo'
+        status:
+          type: string
+          description: Advisory status for this purl (e.g. affected, fixed, not_affected)
+        versionRanges:
+          type: array
+          description: Affected version ranges from this advisory
+          items:
+            $ref: '#/components/schemas/VersionRange'
+        fixedIn:
+          type: string
+          description: Fix version from this advisory
+        remediations:
+          type: array
+          description: Remediation actions from this advisory
+          items:
+            $ref: '#/components/schemas/RemediationInfo'
     RemediationInfo:
       type: object
-      description: Detailed remediation information from a vulnerability advisory
+      description: A single remediation action from a vulnerability advisory
       properties:
         category:
           $ref: '#/components/schemas/RemediationCategory'
@@ -581,8 +598,6 @@ components:
           type: string
           format: uri
           description: URL with more information about the remediation
-        advisory:
-          $ref: '#/components/schemas/AdvisoryInfo'
     AdvisoryInfo:
       type: object
       description: Source advisory attribution for a remediation
